@@ -1,0 +1,217 @@
+/* استيراد خط تجوال من جوجل */
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap');
+
+/* المتغيرات الأساسية للألوان - مظهر تقني داكن */
+:root {
+    --bg-main: #0f172a;        /* خلفية داكنة جداً */
+    --bg-card: #1e293b;        /* لون البطاقات */
+    --primary: #0ea5e9;        /* أزرق تقني */
+    --primary-glow: #38bdf8;   /* أزرق ساطع للتأثيرات */
+    --accent: #8b5cf6;         /* بنفسجي للمسات الإبداعية */
+    --text-light: #f8fafc;
+    --text-muted: #94a3b8;
+    --transition: all 0.3s ease;
+}
+
+/* إعدادات عامة */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Tajawal', sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-light);
+    line-height: 1.6;
+}
+
+/* التمرير السلس */
+html {
+    scroll-behavior: smooth;
+}
+
+/* -------------------------------- */
+/* قسم الترحيب (Hero Section)       */
+/* -------------------------------- */
+header#home {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    background: radial-gradient(circle at top, #1e293b 0%, #0f172a 70%);
+}
+
+header#home h1 {
+    font-size: 3.5rem;
+    font-weight: 900;
+    margin-bottom: 1rem;
+    /* تأثير نص متدرج اللون مع دعم كامل المتصفحات */
+    background: linear-gradient(to left, var(--primary-glow), var(--accent));
+    -webkit-background-clip: text;
+    background-clip: text; /* السطر القياسي الجديد لحل التنبيه */
+    -webkit-text-fill-color: transparent;
+}
+
+header#home h2 {
+    font-size: 1.5rem;
+    color: var(--text-light);
+    margin-bottom: 1.5rem;
+}
+
+header#home p {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin-bottom: 2.5rem;
+}
+
+/* تصميم الزر الاحترافي */
+.btn {
+    display: inline-block;
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(45deg, var(--primary), var(--accent));
+    text-decoration: none;
+    border-radius: 8px;
+    transition: var(--transition);
+    box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(14, 165, 233, 0.5);
+}
+
+/* -------------------------------- */
+/* قسم المشاريع (Portfolio)         */
+/* -------------------------------- */
+section {
+    padding: 5rem 2rem;
+    text-align: center;
+}
+
+section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    color: var(--text-light);
+    position: relative;
+    display: inline-block;
+}
+
+/* خط تزييني تحت العناوين */
+section h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    right: 50%;
+    transform: translateX(50%);
+    width: 50px;
+    height: 4px;
+    background-color: var(--primary);
+    border-radius: 2px;
+}
+
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* تصميم بطاقة المشروع - تأثير الزجاج (Glassmorphism) */
+.project-card {
+    background-color: var(--bg-card);
+    padding: 2rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: var(--transition);
+    text-align: right;
+}
+
+.project-card h3 {
+    color: var(--primary-glow);
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+.project-card p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+.project-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--primary);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* -------------------------------- */
+/* قسم التواصل (Contact)            */
+/* -------------------------------- */
+#contact {
+    background-color: var(--bg-card);
+}
+
+#contact ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+#contact ul li a {
+    color: var(--text-light);
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 700;
+    transition: var(--transition);
+    padding: 10px 20px;
+    border: 1px solid var(--text-muted);
+    border-radius: 8px;
+}
+
+#contact ul li a:hover {
+    color: var(--bg-main);
+    background-color: var(--primary-glow);
+    border-color: var(--primary-glow);
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+}
+/* تنسيق زر تبديل اللغة */
+.lang-switch-container {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+}
+
+#lang-btn {
+    background-color: var(--bg-card);
+    color: var(--primary-glow);
+    border: 1px solid var(--primary);
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: sans-serif;
+    transition: var(--transition);
+}
+
+#lang-btn:hover {
+    background-color: var(--primary);
+    color: #fff;
+    box-shadow: 0 0 10px var(--primary-glow);
+}
+
+/* لتغيير محاذاة بطاقات المشاريع تلقائياً حسب اتجاه الصفحة */
+html[dir="ltr"] .project-card {
+    text-align: left;
+}
