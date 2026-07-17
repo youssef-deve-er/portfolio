@@ -56,14 +56,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (statsSection) statsObserver.observe(statsSection);
 
-    // 3. ميزة التحقق التفاعلي من صندوق الرسائل (Form Validation)
+    // 3. ميزة التحقق التفاعلي من صندوق الرسائل والإرسال الحقيقي (Form Validation & AJAX Submit)
     const contactForm = document.getElementById("contact-form");
-    const nameInput = document.getElementById("name"); // تعديل الاسم الإملائي البرمجي هنا
+    const nameInput = document.getElementById("name");
     const emailInput = document.getElementById("email");
     const messageInput = document.getElementById("message");
     const formStatus = document.getElementById("form-status");
 
-    contactForm.addEventListener("submit", (e) => {
+    contactForm.addEventListener("submit", async (e) => {
+        // نمنع إعادة تحميل الصفحة أو الانتقال الافتراضي دائماً
+        e.preventDefault();
+        
         let isValid = true;
         const currentLang = document.documentElement.getAttribute("lang") || "ar";
         
@@ -72,19 +75,23 @@ document.addEventListener("DOMContentLoaded", () => {
                 nameErr: ". يرجى كتابة الاسم الكامل",
                 emailErr: ". يرجى إدخال بريد إلكتروني صحيح",
                 msgErr: ". يرجى كتابة تفاصيل رسالتك",
-                success: ". تم إرسال رسالتك بنجاح! سأتواصل معك قريباً"
+                sending: "... جاري إرسال الرسالة الآن",
+                success: ". تم إرسال رسالتك بنجاح! سأتواصل معك قريباً",
+                error: "❌ حدث خطأ أثناء الإرسال، يرجى المحاولة لاحقاً."
             },
             en: {
                 nameErr: "Please enter your full name.",
                 emailErr: "Please enter a valid email address.",
                 msgErr: "Please enter your message details.",
-                success: "Message sent successfully! I will contact you soon."
+                sending: "Sending message...",
+                success: "Message sent successfully! I will contact you soon.",
+                error: "❌ Something went wrong, please try again later."
             }
         };
 
         const langMsgs = messages[currentLang];
 
-        // التحقق من الاسم
+        // 1. التحقق من الاسم
         if (nameInput.value.trim() === "") {
             document.getElementById("name-error").textContent = langMsgs.nameErr;
             isValid = false;
@@ -92,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("name-error").textContent = "";
         }
 
-        // التحقق من البريد الإلكتروني
+        // 2. التحقق من البريد الإلكتروني
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(emailInput.value.trim())) {
             document.getElementById("email-error").textContent = langMsgs.emailErr;
@@ -101,7 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("email-error").textContent = "";
         }
 
-        // التحقق من محتوى الرسالة
+        // 3. التحقق من محتوى الرسالة
         if (messageInput.value.trim() === "") {
             document.getElementById("message-error").textContent = langMsgs.msgErr;
             isValid = false;
@@ -109,14 +116,40 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("message-error").textContent = "";
         }
 
-        // إذا كان هناك مدخل غير صحيح نمنع الإرسال الافتراضي
-        if (!isValid) {
-            e.preventDefault();
-        } else {
-            // ملاحظة: إذا كنت تستخدم الخدمة المباشرة Formspree، اترك النموذج يرسل البيانات دون توقيفه بالكامل.
-            formStatus.textContent = langMsgs.success;
+        // إذا كانت كل المدخلات سليمة، نرسل البيانات فوراً إلى Formspree بشكل خفي
+        if (isValid) {
+            formStatus.textContent = langMsgs.sending;
             formStatus.className = "status-success";
-            // السطور التالية اختيارية بناءً على طريقة الربط في الـ HTML
+
+            // تجهيز البيانات لإرسالها
+            const formData = new FormData(contactForm);
+
+            try {
+                const response = await fetch(contactForm.action, {
+                    method: contactForm.method,
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    // إذا نجح الإرسال
+                    formStatus.textContent = langMsgs.success;
+                    formStatus.className = "status-success";
+                    contactForm.reset(); // تفريغ الخانات
+                } else {
+                    // إذا حدثت مشكلة في السيرفر
+                    formStatus.textContent = langMsgs.error;
+                    formStatus.className = "status-error";
+                }
+            } catch (error) {
+                // إذا انقطع الإنترنت أو حدثت مشكلة شبكة
+                formStatus.textContent = langMsgs.error;
+                formStatus.className = "status-error";
+            }
+
+            // إخفاء نص الحالة بعد 5 ثوانٍ
             setTimeout(() => { formStatus.textContent = ""; }, 5000);
         }
     });
