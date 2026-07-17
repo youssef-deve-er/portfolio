@@ -1,232 +1,336 @@
-/* استيراد خط تجوال من جوجل */
-@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap');
-
-/* المتغيرات الأساسية للألوان - مظهر تقني داكن */
+/* ==========================================================================
+   1. الإعدادات العامة والمتغيرات (Variables & Base)
+   ========================================================================== */
 :root {
-    --bg-main: #0f172a;        /* خلفية داكنة جداً */
-    --bg-card: #1e293b;        /* لون البطاقات */
-    --primary: #0ea5e9;        /* أزرق تقني */
-    --primary-glow: #38bdf8;   /* أزرق ساطع للتأثيرات */
-    --accent: #8b5cf6;         /* بنفسجي للمسات الإبداعية */
-    --text-light: #f8fafc;
+    /* ألوان الوضع الداكن الافتراضي (Dark Mode) */
+    --bg-color: #0f172a;
+    --card-bg: #1e293b;
+    --text-color: #f8fafc;
     --text-muted: #94a3b8;
-    --transition: all 0.3s ease;
+    --primary-color: #38bdf8;
+    --primary-hover: #0ea5e9;
+    --border-color: #334155;
+    --error-color: #f87171;
+    --success-color: #4ade80;
+    --transition-speed: 0.3s;
 }
 
-/* إعدادات عامة */
+/* الألوان عند التحول للوضع الفاتح (Light Mode) */
+[data-theme="light"] {
+    --bg-color: #f8fafc;
+    --card-bg: #ffffff;
+    --text-color: #0f172a;
+    --text-muted: #64748b;
+    --primary-color: #0284c7;
+    --primary-hover: #0369a1;
+    --border-color: #e2e8f0;
+    --error-color: #ef4444;
+    --success-color: #22c55e;
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease, color var(--transition-speed) ease;
 }
 
 body {
-    font-family: 'Tajawal', sans-serif;
-    background-color: var(--bg-main);
-    color: var(--text-light);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
     line-height: 1.6;
 }
 
-/* التمرير السلس */
-html {
-    scroll-behavior: smooth;
+/* ==========================================================================
+   2. الهيدر وأزرار التحكم (Header & Controls)
+   ========================================================================== */
+header {
+    background-color: var(--card-bg);
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
-/* -------------------------------- */
-/* قسم الترحيب (Hero Section)       */
-/* -------------------------------- */
-header#home {
-    min-height: 100vh;
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    text-align: center;
-    padding: 2rem;
-    background: radial-gradient(circle at top, #1e293b 0%, #0f172a 70%);
 }
 
-header#home h1 {
-    font-size: 3.5rem;
-    font-weight: 900;
-    margin-bottom: 1rem;
-    /* تأثير نص متدرج اللون مع دعم كامل المتصفحات */
-    background: linear-gradient(to left, var(--primary-glow), var(--accent));
-    -webkit-background-clip: text;
-    background-clip: text; /* السطر القياسي الجديد لحل التنبيه */
-    -webkit-text-fill-color: transparent;
-}
-
-header#home h2 {
+.logo {
     font-size: 1.5rem;
-    color: var(--text-light);
-    margin-bottom: 1.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
 }
 
-header#home p {
-    font-size: 1.1rem;
-    color: var(--text-muted);
-    max-width: 600px;
-    margin-bottom: 2.5rem;
+.controls-wrapper {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
 }
 
-/* تصميم الزر الاحترافي */
-.btn {
-    display: inline-block;
-    padding: 12px 30px;
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #fff;
-    background: linear-gradient(45deg, var(--primary), var(--accent));
-    text-decoration: none;
+.control-btn {
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    padding: 0.5rem 1rem;
     border-radius: 8px;
-    transition: var(--transition);
-    box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(14, 165, 233, 0.5);
+.control-btn:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
 }
 
-/* -------------------------------- */
-/* قسم المشاريع (Portfolio)         */
-/* -------------------------------- */
+/* ==========================================================================
+   3. أقسام الموقع (Hero & General Sections)
+   ========================================================================== */
 section {
     padding: 5rem 2rem;
-    text-align: center;
-}
-
-section h2 {
-    font-size: 2.5rem;
-    margin-bottom: 3rem;
-    color: var(--text-light);
-    position: relative;
-    display: inline-block;
-}
-
-/* خط تزييني تحت العناوين */
-section h2::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    right: 50%;
-    transform: translateX(50%);
-    width: 50px;
-    height: 4px;
-    background-color: var(--primary);
-    border-radius: 2px;
-}
-
-.project-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    max-width: 1000px;
+    max-width: 1200px;
     margin: 0 auto;
 }
 
-/* تصميم بطاقة المشروع - تأثير الزجاج (Glassmorphism) */
+#hero {
+    text-align: center;
+    padding: 7rem 2rem;
+}
+
+#hero h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+#hero p {
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* ==========================================================================
+   4. ميزة الإحصائيات التفاعلية (Stats Section)
+   ========================================================================== */
+.stats-section {
+    background-color: var(--card-bg);
+    border-radius: 16px;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    border: 1px solid var(--border-color);
+}
+
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    text-align: center;
+}
+
+.stat-card h3 {
+    font-size: 3rem;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.stat-card p {
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+/* ==========================================================================
+   5. معرض المشاريع (Projects Portfolio)
+   ========================================================================== */
+#projects h2 {
+    text-align: center;
+    margin-bottom: 3rem;
+    font-size: 2rem;
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
 .project-card {
-    background-color: var(--bg-card);
-    padding: 2rem;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
     border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    transition: var(--transition);
-    text-align: right;
+    padding: 2rem;
 }
 
 .project-card h3 {
-    color: var(--primary-glow);
     margin-bottom: 1rem;
-    font-size: 1.3rem;
+    color: var(--text-color);
 }
 
 .project-card p {
     color: var(--text-muted);
-    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
 }
 
-.project-card:hover {
-    transform: translateY(-10px);
-    border-color: var(--primary);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+.btn-code {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: #ffffff;
+    text-decoration: none;
+    padding: 0.6rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 500;
 }
 
-/* -------------------------------- */
-/* قسم التواصل (Contact)            */
-/* -------------------------------- */
+.btn-code:hover {
+    background-color: var(--primary-hover);
+}
+
+/* ==========================================================================
+   6. ميزة صندوق الرسائل التفاعلي (Contact Form)
+   ========================================================================== */
 #contact {
-    background-color: var(--bg-card);
+    text-align: center;
 }
 
-#contact ul {
+#contact h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+#contact > p {
+    color: var(--text-muted);
+    margin-bottom: 3rem;
+}
+
+#contact-form {
+    max-width: 600px;
+    margin: 0 auto 4rem auto;
+    text-align: right; /* متناسق مع اتجاه الكتابة */
+}
+
+/* الحقول العائمة التفاعلية */
+.form-group {
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 1rem;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-color);
+    font-size: 1rem;
+    outline: none;
+}
+
+/* تأثير حركة الـ Label عند الضغط والتركيز */
+.form-group label {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    color: var(--text-muted);
+    pointer-events: none;
+    transition: all 0.2s ease;
+    background-color: var(--card-bg);
+    padding: 0 0.5rem;
+}
+
+.form-group input:focus ~ label,
+.form-group input:not(:placeholder-shown) ~ label,
+.form-group textarea:focus ~ label,
+.form-group textarea:not(:placeholder-shown) ~ label {
+    top: -0.7rem;
+    right: 0.8rem;
+    font-size: 0.8rem;
+    color: var(--primary-color);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
+}
+
+/* رسائل الخطأ */
+.error-message {
+    color: var(--error-color);
+    font-size: 0.85rem;
+    display: block;
+    margin-top: 0.3rem;
+    height: 1rem;
+}
+
+/* زر الإرسال */
+#submit-btn {
+    width: 100%;
+    padding: 1rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#submit-btn:hover {
+    background-color: var(--primary-hover);
+}
+
+/* حالة نجاح أو فشل الإرسال الكلي */
+#form-status {
+    margin-top: 1rem;
+    font-weight: 500;
+    text-align: center;
+}
+
+.status-success { color: var(--success-color); }
+.status-error { color: var(--error-color); }
+
+/* ==========================================================================
+   7. أزرار قنوات التواصل (Social Links)
+   ========================================================================== */
+.social-links {
     list-style: none;
     display: flex;
     justify-content: center;
     gap: 2rem;
-    margin-top: 2rem;
 }
 
-#contact ul li a {
-    color: var(--text-light);
+.social-links a {
+    color: var(--text-muted);
     text-decoration: none;
-    font-size: 1.2rem;
-    font-weight: 700;
-    transition: var(--transition);
-    padding: 10px 20px;
-    border: 1px solid var(--text-muted);
-    border-radius: 8px;
+    font-weight: 500;
 }
 
-#contact ul li a:hover {
-    color: var(--bg-main);
-    background-color: var(--primary-glow);
-    border-color: var(--primary-glow);
-    box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
-}
-/* تنسيق زر تبديل اللغة */
-.lang-switch-container {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    z-index: 1000;
+.social-links a:hover {
+    color: var(--primary-color);
 }
 
-#lang-btn {
-    background-color: var(--bg-card);
-    color: var(--primary-glow);
-    border: 1px solid var(--primary);
-    padding: 8px 16px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-weight: bold;
-    font-family: sans-serif;
-    transition: var(--transition);
-}
-
-#lang-btn:hover {
-    background-color: var(--primary);
-    color: #fff;
-    box-shadow: 0 0 10px var(--primary-glow);
-}
-
-/* لتغيير محاذاة بطاقات المشاريع تلقائياً حسب اتجاه الصفحة */
-html[dir="ltr"] .project-card {
+/* لضمان دعم اللغات ذات الاتجاه من اليسار لليمين (LTR) مثل الإنجليزية */
+html[dir="ltr"] #contact-form {
     text-align: left;
 }
-.btn-code {
-    display: inline-block;
-    margin-top: 15px;
-    padding: 8px 16px;
-    background-color: #00bcd4; /* لون لبني مميز ومتناسق */
-    color: #fff;
-    text-decoration: none;
-    border-radius: 4px;
-    font-weight: bold;
-    transition: background 0.3s;
+html[dir="ltr"] .form-group label {
+    left: 1rem;
+    right: auto;
 }
-
-.btn-code:hover {
-    background-color: #0097a7;
+html[dir="ltr"] .form-group input:focus ~ label,
+html[dir="ltr"] .form-group input:not(:placeholder-shown) ~ label,
+html[dir="ltr"] .form-group textarea:focus ~ label,
+html[dir="ltr"] .form-group textarea:not(:placeholder-shown) ~ label {
+    left: 0.8rem;
+    right: auto;
 }
