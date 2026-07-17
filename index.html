@@ -95,8 +95,7 @@
             مستعد لتحويل أفكارك إلى حلول برمجية واقعية توفر وقتك وجهدك.
         </p>
         
-        <!-- ملاحظة: لاستقبال الرسائل الحقيقية في بريدك، يمكنك استبدال الرابط أدناه برابط من Formspree أو EmailJS -->
-        <form id="contact-form" action="https://formspree.io/f/https://formspree.io/f/xnjeprbj" method="POST" novalidate>
+        <form id="contact-form" action="https://formspree.io/f/xnjeprbj" method="POST" novalidate>
             <div class="form-group">
                 <input type="text" id="name" name="name" placeholder=" " required>
                 <label for="name" data-ar="الاسم الكامل" data-en="Full Name">الاسم الكامل</label>
@@ -108,7 +107,7 @@
                 <span class="error-message" id="email-error"></span>
             </div>
             <div class="form-group">
-                <textarea id="message" name="message" placeholder=" " rows="5" required></textarea>
+                <input type="textarea" id="message" name="message" placeholder=" " rows="5" required></textarea>
                 <label for="message" data-ar="تفاصيل مشروعك أو رسالتك" data-en="Your Message / Project Details">تفاصيل مشروعك أو رسالتك</label>
                 <span class="error-message" id="message-error"></span>
             </div>
@@ -126,6 +125,7 @@
         </ul>
     </section>
 
-    <script src="script.js"></script>
+    <!-- تم تحديث النسخة لمنع التخزين المؤقت القديم للمتصفح -->
+    <script src="script.js?v=2.1"></script>
 </body>
 </html>
