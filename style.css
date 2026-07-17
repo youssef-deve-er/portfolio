@@ -1,8 +1,4 @@
-/* ==========================================================================
-   1. الإعدادات العامة والمتغيرات (Variables & Base)
-   ========================================================================== */
 :root {
-    /* ألوان الوضع الداكن الافتراضي (Dark Mode) */
     --bg-color: #0f172a;
     --card-bg: #1e293b;
     --text-color: #f8fafc;
@@ -15,7 +11,6 @@
     --transition-speed: 0.3s;
 }
 
-/* الألوان عند التحول للوضع الفاتح (Light Mode) */
 [data-theme="light"] {
     --bg-color: #f8fafc;
     --card-bg: #ffffff;
@@ -42,9 +37,6 @@ body {
     line-height: 1.6;
 }
 
-/* ==========================================================================
-   2. الهيدر وأزرار التحكم (Header & Controls)
-   ========================================================================== */
 header {
     background-color: var(--card-bg);
     border-bottom: 1px solid var(--border-color);
@@ -93,11 +85,8 @@ header {
     color: var(--primary-color);
 }
 
-/* ==========================================================================
-   3. أقسام الموقع (Hero & General Sections)
-   ========================================================================== */
 section {
-    padding: 5rem 2rem;
+    padding: 4rem 2rem;
     max-width: 1200px;
     margin: 0 auto;
 }
@@ -115,19 +104,16 @@ section {
 #hero p {
     color: var(--text-muted);
     font-size: 1.2rem;
-    max-width: 600px;
+    max-width: 700px;
     margin: 0 auto;
 }
 
-/* ==========================================================================
-   4. ميزة الإحصائيات التفاعلية (Stats Section)
-   ========================================================================== */
 .stats-section {
     background-color: var(--card-bg);
     border-radius: 16px;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
+    margin: 2rem auto;
     border: 1px solid var(--border-color);
+    max-width: 1200px;
 }
 
 .stats-container {
@@ -135,6 +121,7 @@ section {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 2rem;
     text-align: center;
+    padding: 2rem;
 }
 
 .stat-card h3 {
@@ -148,10 +135,7 @@ section {
     font-weight: 500;
 }
 
-/* ==========================================================================
-   5. معرض المشاريع (Projects Portfolio)
-   ========================================================================== */
-#projects h2 {
+#projects h2, #services h2 {
     text-align: center;
     margin-bottom: 3rem;
     font-size: 2rem;
@@ -168,6 +152,9 @@ section {
     border: 1px solid var(--border-color);
     border-radius: 12px;
     padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .project-card h3 {
@@ -178,6 +165,7 @@ section {
 .project-card p {
     color: var(--text-muted);
     margin-bottom: 1.5rem;
+    font-size: 0.95rem;
 }
 
 .btn-code {
@@ -188,15 +176,14 @@ section {
     padding: 0.6rem 1.5rem;
     border-radius: 6px;
     font-weight: 500;
+    text-align: center;
+    align-self: flex-start;
 }
 
 .btn-code:hover {
     background-color: var(--primary-hover);
 }
 
-/* ==========================================================================
-   6. ميزة صندوق الرسائل التفاعلي (Contact Form)
-   ========================================================================== */
 #contact {
     text-align: center;
 }
@@ -214,10 +201,9 @@ section {
 #contact-form {
     max-width: 600px;
     margin: 0 auto 4rem auto;
-    text-align: right; /* متناسق مع اتجاه الكتابة */
+    text-align: right;
 }
 
-/* الحقول العائمة التفاعلية */
 .form-group {
     position: relative;
     margin-bottom: 2rem;
@@ -235,7 +221,6 @@ section {
     outline: none;
 }
 
-/* تأثير حركة الـ Label عند الضغط والتركيز */
 .form-group label {
     position: absolute;
     right: 1rem;
@@ -247,6 +232,7 @@ section {
     padding: 0 0.5rem;
 }
 
+/* إصلاح حركة الأنيميشن وحل مشكلة الـ placeholder-shown */
 .form-group input:focus ~ label,
 .form-group input:not(:placeholder-shown) ~ label,
 .form-group textarea:focus ~ label,
@@ -263,7 +249,6 @@ section {
     box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
 }
 
-/* رسائل الخطأ */
 .error-message {
     color: var(--error-color);
     font-size: 0.85rem;
@@ -272,7 +257,6 @@ section {
     height: 1rem;
 }
 
-/* زر الإرسال */
 #submit-btn {
     width: 100%;
     padding: 1rem;
@@ -289,7 +273,6 @@ section {
     background-color: var(--primary-hover);
 }
 
-/* حالة نجاح أو فشل الإرسال الكلي */
 #form-status {
     margin-top: 1rem;
     font-weight: 500;
@@ -299,9 +282,6 @@ section {
 .status-success { color: var(--success-color); }
 .status-error { color: var(--error-color); }
 
-/* ==========================================================================
-   7. أزرار قنوات التواصل (Social Links)
-   ========================================================================== */
 .social-links {
     list-style: none;
     display: flex;
@@ -319,18 +299,10 @@ section {
     color: var(--primary-color);
 }
 
-/* لضمان دعم اللغات ذات الاتجاه من اليسار لليمين (LTR) مثل الإنجليزية */
-html[dir="ltr"] #contact-form {
-    text-align: left;
-}
-html[dir="ltr"] .form-group label {
-    left: 1rem;
-    right: auto;
-}
+/* اتجاهات اللغات وتحسين التوافقية */
+html[dir="ltr"] #contact-form { text-align: left; }
+html[dir="ltr"] .form-group label { left: 1rem; right: auto; }
 html[dir="ltr"] .form-group input:focus ~ label,
 html[dir="ltr"] .form-group input:not(:placeholder-shown) ~ label,
 html[dir="ltr"] .form-group textarea:focus ~ label,
-html[dir="ltr"] .form-group textarea:not(:placeholder-shown) ~ label {
-    left: 0.8rem;
-    right: auto;
-}
+html[dir="ltr"] .form-group textarea:not(:placeholder-shown) ~ label { left: 0.8rem; right: auto; }
