@@ -3,98 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="site-title" data-ar="مطور بايثون وأتمتة المهام" data-en="Python & Automation Developer">مطور بايثون وأتمتة المهام</title>
+    <title data-ar="يوسف بن عايد | مطور بايثون وأتمتة" data-en="Youssef Ben Ayed | Python & Automation Developer">يوسف بن عايد | مطور بايثون وأتمتة</title>
     <link rel="stylesheet" href="style.css">
-    <!-- زر تبديل المظهر الليلي/النهاري -->
-<div class="theme-switch-wrapper">
-    <button id="theme-toggle" aria-label="Toggle Theme">
-        <span id="theme-icon">🌙</span>
-    </button>
-</div>
 </head>
 <body>
 
-    <!-- زر تبديل اللغة الثابت في الأعلى -->
-    <div class="lang-switch-container">
-        <button id="lang-btn">English</button>
-    </div>
-
-    <!-- قسم الترحيب (Hero Section) -->
-    <header id="home">
-       <h1 data-ar="أهلاً، أنا يوسف بن عياد" data-en="Hi, I am Youssef Ben Ayed">أهلاً، أنا يوسف بن عياد</h1>
-        <h2 data-ar="مطور بايثون متخصص في أتمتة المهام وتطوير الحلول البرمجية" data-en="Python Developer Specializing in Automation & Scripting">مطور بايثون متخصص في أتمتة المهام وتطوير الحلول البرمجية</h2>
-        <p data-ar="أساعد أصحاب الأعمال في توفير الوقت والجهد عبر تحويل المهام الروتينية إلى أنظمة تعمل آلياً." data-en="I help business owners save time and effort by converting routine tasks into automated systems.">أساعد أصحاب الأعمال في توفير الوقت والجهد عبر تحويل المهام الروتينية إلى أنظمة تعمل آلياً.</p>
-        <a href="#contact" class="btn" data-ar="تواصل معي لبدء مشروعك" data-en="Contact Me to Start Your Project">تواصل معي لبدء مشروعك</a>
+    <!-- الهيدر وزر تبديل المظهر / اللغة -->
+    <header>
+        <div class="header-container">
+            <h1 class="logo">Youssef</h1>
+            <div class="controls-wrapper">
+                <!-- زر تبديل المظهر الليلي/النهاري المطور -->
+                <button id="theme-toggle" class="control-btn" aria-label="Toggle Theme">
+                    <span id="theme-icon">🌙</span>
+                </button>
+                <!-- زر تبديل اللغة القديم الخاص بك -->
+                <button id="lang-toggle" class="control-btn">EN</button>
+            </div>
+        </div>
     </header>
 
-    <!-- قسم معرض الأعمال (Portfolio) -->
+    <!-- قسم النبذة التعريفية (Hero Section) -->
+    <section id="hero">
+        <div class="hero-content">
+            <h2 data-ar="مرحباً، أنا يوسف بن عايد" data-en="Hi, I'm Youssef Ben Ayed">مرحباً، أنا يوسف بن عايد</h2>
+            <p data-ar="مطور بايثون متخصص في بناء أدوات الأتمتة المخصصة وسحب بيانات المواقع (Web Scraping)." 
+               data-en="Python Developer specializing in building custom automation tools and Web Scrapers.">
+               مطور بايثون متخصص في بناء أدوات الأتمتة المخصصة وسحب بيانات المواقع (Web Scraping).
+            </p>
+        </div>
+    </section>
+
+    <!-- ميزة 1: لوحة الإحصائيات المتحركة الجديدة -->
+    <section class="stats-section">
+        <div class="stats-container">
+            <div class="stat-card">
+                <h3 class="stat-number" data-target="15">0</h3>
+                <p data-ar="السكربتات والأدوات" data-en="Scripts & Tools">السكربتات والأدوات</p>
+            </div>
+            <div class="stat-card">
+                <h3 class="stat-number" data-target="8">0</h3>
+                <p data-ar="مواقع تم سحب بياناتها" data-en="Web Scrapers Built">مواقع تم سحب بياناتها</p>
+            </div>
+            <div class="stat-card">
+                <h3 class="stat-number" data-target="200">0</h3>
+                <p data-ar="ساعات عمل تم توفيرها" data-en="Hours of Automation">ساعات عمل تم توفيرها</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم المشاريع (Portfolio Projects) -->
     <section id="projects">
-        <h2 data-ar="أبرز مشاريعي في الأتمتة" data-en="Featured Automation Projects">أبرز مشاريعي في الأتمتة</h2>
-        <div class="project-grid">
-            
-            <!-- بطاقة مشروع استخراج البيانات -->
-            <!-- بطاقة مشروع السكربت داخل ملف index.html -->
-<div class="project-card">
-    <h3 data-ar="أداة استخراج البيانات التلقائية (Web Scraper)" data-en="Automated Web Scraper Script">أداة استخراج البيانات التلقائية (Web Scraper)</h3>
-    <p data-ar="سكربت مبرمج بلغة بايثون يقوم بالاتصال بمواقع الويب، واستخراج العناوين والروابط بدقة، ثم تنظيمها وحفظها تلقائياً في ملف Excel منظم بضغطة زر." 
-       data-en="A Python script that connects to websites, extracts headlines and links accurately, and automatically organizes and saves them into an Excel sheet.">
-       سكربت مبرمج بلغة بايثون يقوم بالاتصال بمواقع الويب، واستخراج العناوين والروابط بدقة، ثم تنظيمها وحفظها تلقائياً في ملف Excel منظم بضغطة زر.
-    </p>
-    
-    <!-- الزر الجديد لعرض الكود -->
-    <a href="https://github.com/youssef-deve-er/web-scraper-python" target="_blank" class="btn-code" data-ar="عرض الكود" data-en="View Code">عرض الكود</a>
-</div>
-
+        <h2 data-ar="مشاريعي الأخيرة" data-en="My Recent Projects">مشاريعي الأخيرة</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <h3 data-ar="أداة سحب البيانات الذكية" data-en="Smart Web Scraper">أداة سحب البيانات الذكية</h3>
+                <p data-ar="سكربت بايثون متقدم لسحب وتنظيم البيانات من المواقع بسلاسة وتصديرها لملفات منظمة." 
+                   data-en="Advanced Python script to scrape, clean, and export structured website data efficiently.">
+                   سكربت بايثون متقدم لسحب وتنظيم البيانات من المواقع بسلاسة وتصديرها لملفات منظمة.
+                </p>
+                <a href="https://github.com/youssef-deve-er/web-scraper-python" target="_blank" class="btn-code" data-ar="عرض الكود" data-en="View Code">عرض الكود</a>
+            </div>
         </div>
     </section>
-    <!-- قسم الإحصائيات التفاعلية -->
-<section class="stats-section">
-    <div class="stats-container">
-        <div class="stat-card">
-            <h3 class="stat-number" data-target="15">0</h3>
-            <p data-ar="السكربتات والأدوات" data-en="Scripts & Tools">السكربتات والأدوات</p>
-        </div>
-        <div class="stat-card">
-            <h3 class="stat-number" data-target="8">0</h3>
-            <p data-ar="مواقع تم سحب بياناتها" data-en="Web Scrapers Built">مواقع تم سحب بياناتها</p>
-        </div>
-        <div class="stat-card">
-            <h3 class="stat-number" data-target="200">0</h3>
-            <p data-ar="ساعات عمل تم توفيرها" data-en="Hours of Automation">ساعات عمل تم توفيرها</p>
-        </div>
-    </div>
-</section>
 
-    <!-- قسم التواصل (Contact) -->
+    <!-- قسم التواصل وميزة 2: صندوق الرسائل التفاعلي المطور والروابط -->
     <section id="contact">
+        <h2 data-ar="تحدث عن مشروعك" data-en="Let's Talk About Your Project">تحدث عن مشروعك</h2>
+        <p data-ar="مستعد لتحويل أفكارك إلى حلول برمجية واقعية." data-en="Ready to turn your ideas into real software solutions.">مستعد لتحويل أفكارك إلى حلول برمجية واقعية.</p>
+        
         <!-- نموذج الاتصال التفاعلي الجديد -->
-<form id="contact-form" novalidate>
-    <div class="form-group">
-        <input type="text" id="name" placeholder=" " required>
-        <label for="name" data-ar="الاسم الكامل" data-en="Full Name">الاسم الكامل</label>
-        <span class="error-message" id="name-error"></span>
-    </div>
-    
-    <div class="form-group">
-        <input type="email" id="email" placeholder=" " required>
-        <label for="email" data-ar="البريد الإلكتروني" data-en="Email Address">البريد الإلكتروني</label>
-        <span class="error-message" id="email-error"></span>
-    </div>
-    
-    <div class="form-group">
-        <textarea id="message" placeholder=" " rows="5" required></textarea>
-        <label for="message" data-ar="تفاصيل مشروعك أو رسالتك" data-en="Your Message / Project Details">تفاصيل مشروعك أو رسالتك</label>
-        <span class="error-message" id="message-error"></span>
-    </div>
-    
-    <button type="submit" id="submit-btn">
-        <span id="btn-text" data-ar="إرسال الرسالة" data-en="Send Message">إرسال الرسالة</span>
-    </button>
-    <div id="form-status"></div>
-</form>
+        <form id="contact-form" novalidate>
+            <div class="form-group">
+                <input type="text" id="name" placeholder=" " required>
+                <label for="name" data-ar="الاسم الكامل" data-en="Full Name">الاسم الكامل</label>
+                <span class="error-message" id="name-error"></span>
+            </div>
+            
+            <div class="form-group">
+                <input type="email" id="email" placeholder=" " required>
+                <label for="email" data-ar="البريد الإلكتروني" data-en="Email Address">البريد الإلكتروني</label>
+                <span class="error-message" id="email-error"></span>
+            </div>
+            
+            <div class="form-group">
+                <textarea id="message" placeholder=" " rows="5" required></textarea>
+                <label for="message" data-ar="تفاصيل مشروعك أو رسالتك" data-en="Your Message / Project Details">تفاصيل مشروعك أو رسالتك</label>
+                <span class="error-message" id="message-error"></span>
+            </div>
+            
+            <button type="submit" id="submit-btn">
+                <span id="btn-text" data-ar="إرسال الرسالة" data-en="Send Message">إرسال الرسالة</span>
+            </button>
+            <div id="form-status"></div>
+        </form>
+
+        <!-- روابط التواصل الاجتماعي الصحيحة التي أعددناها -->
+        <ul class="social-links">
+            <li><a href="https://www.linkedin.com/in/youssef-ben-ayed-6bb1ab423/" target="_blank">LinkedIn</a></li>
+            <li><a href="https://x.com/Youssef_deve_er" target="_blank">Twitter / X</a></li>
+            <li><a href="mailto:youssefbenayed207@outlook.com" data-ar="البريد الإلكتروني" data-en="Email">البريد الإلكتروني</a></li>
+        </ul>
     </section>
 
-    <!-- ربط ملف الجافاسكربت -->
+    <!-- ربط ملف الجافاسكريبت في النهاية تماماً لضمان عمل الميزات -->
     <script src="script.js"></script>
 </body>
 </html>
