@@ -176,3 +176,4 @@ document.addEventListener("DOMContentLoaded", () => {
         formStatus.textContent = "";
     });
 });
+<script src="script.js?v=2.0"></script>
