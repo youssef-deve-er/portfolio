@@ -63,117 +63,112 @@ document.addEventListener("DOMContentLoaded", () => {
     const messageInput = document.getElementById("message");
     const formStatus = document.getElementById("form-status");
 
-    contactForm.addEventListener("submit", async (e) => {
-        // نمنع إعادة تحميل الصفحة أو الانتقال الافتراضي دائماً
-        e.preventDefault();
-        
-        let isValid = true;
-        const currentLang = document.documentElement.getAttribute("lang") || "ar";
-        
-        const messages = {
-            ar: {
-                nameErr: ". يرجى كتابة الاسم الكامل",
-                emailErr: ". يرجى إدخال بريد إلكتروني صحيح",
-                msgErr: ". يرجى كتابة تفاصيل رسالتك",
-                sending: "... جاري إرسال الرسالة الآن",
-                success: ". تم إرسال رسالتك بنجاح! سأتواصل معك قريباً",
-                error: "❌ حدث خطأ أثناء الإرسال، يرجى المحاولة لاحقاً."
-            },
-            en: {
-                nameErr: "Please enter your full name.",
-                emailErr: "Please enter a valid email address.",
-                msgErr: "Please enter your message details.",
-                sending: "Sending message...",
-                success: "Message sent successfully! I will contact you soon.",
-                error: "❌ Something went wrong, please try again later."
+    if (contactForm) {
+        contactForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            
+            let isValid = true;
+            const currentLang = document.documentElement.getAttribute("lang") || "ar";
+            
+            const messages = {
+                ar: {
+                    nameErr: ". يرجى كتابة الاسم الكامل",
+                    emailErr: ". يرجى إدخال بريد إلكتروني صحيح",
+                    msgErr: ". يرجى كتابة تفاصيل رسالتك",
+                    sending: "... جاري إرسال الرسالة الآن",
+                    success: ". تم إرسال رسالتك بنجاح! سأتواصل معك قريباً",
+                    error: "❌ حدث خطأ أثناء الإرسال، يرجى المحاولة لاحقاً."
+                },
+                en: {
+                    nameErr: "Please enter your full name.",
+                    emailErr: "Please enter a valid email address.",
+                    msgErr: "Please enter your message details.",
+                    sending: "Sending message...",
+                    success: "Message sent successfully! I will contact you soon.",
+                    error: "❌ Something went wrong, please try again later."
+                }
+            };
+
+            const langMsgs = messages[currentLang];
+
+            // التحقق من الاسم
+            if (nameInput.value.trim() === "") {
+                document.getElementById("name-error").textContent = langMsgs.nameErr;
+                isValid = false;
+            } else {
+                document.getElementById("name-error").textContent = "";
             }
-        };
 
-        const langMsgs = messages[currentLang];
+            // التحقق من البريد الإلكتروني
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(emailInput.value.trim())) {
+                document.getElementById("email-error").textContent = langMsgs.emailErr;
+                isValid = false;
+            } else {
+                document.getElementById("email-error").textContent = "";
+            }
 
-        // 1. التحقق من الاسم
-        if (nameInput.value.trim() === "") {
-            document.getElementById("name-error").textContent = langMsgs.nameErr;
-            isValid = false;
-        } else {
-            document.getElementById("name-error").textContent = "";
-        }
+            // التحقق من محتوى الرسالة
+            if (messageInput.value.trim() === "") {
+                document.getElementById("message-error").textContent = langMsgs.msgErr;
+                isValid = false;
+            } else {
+                document.getElementById("message-error").textContent = "";
+            }
 
-        // 2. التحقق من البريد الإلكتروني
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(emailInput.value.trim())) {
-            document.getElementById("email-error").textContent = langMsgs.emailErr;
-            isValid = false;
-        } else {
-            document.getElementById("email-error").textContent = "";
-        }
+            // إرسال البيانات فوراً إلى Formspree عبر AJAX عند صحة المدخلات
+            if (isValid) {
+                formStatus.textContent = langMsgs.sending;
+                formStatus.className = "status-success";
 
-        // 3. التحقق من محتوى الرسالة
-        if (messageInput.value.trim() === "") {
-            document.getElementById("message-error").textContent = langMsgs.msgErr;
-            isValid = false;
-        } else {
-            document.getElementById("message-error").textContent = "";
-        }
+                const formData = new FormData(contactForm);
 
-        // إذا كانت كل المدخلات سليمة، نرسل البيانات فوراً إلى Formspree بشكل خفي
-        if (isValid) {
-            formStatus.textContent = langMsgs.sending;
-            formStatus.className = "status-success";
+                try {
+                    const response = await fetch(contactForm.action, {
+                        method: contactForm.method,
+                        body: formData,
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    });
 
-            // تجهيز البيانات لإرسالها
-            const formData = new FormData(contactForm);
-
-            try {
-                const response = await fetch(contactForm.action, {
-                    method: contactForm.method,
-                    body: formData,
-                    headers: {
-                        'Accept': 'application/json'
+                    if (response.ok) {
+                        formStatus.textContent = langMsgs.success;
+                        formStatus.className = "status-success";
+                        contactForm.reset();
+                    } else {
+                        formStatus.textContent = langMsgs.error;
+                        formStatus.className = "status-error";
                     }
-                });
-
-                if (response.ok) {
-                    // إذا نجح الإرسال
-                    formStatus.textContent = langMsgs.success;
-                    formStatus.className = "status-success";
-                    contactForm.reset(); // تفريغ الخانات
-                } else {
-                    // إذا حدثت مشكلة في السيرفر
+                } catch (error) {
                     formStatus.textContent = langMsgs.error;
                     formStatus.className = "status-error";
                 }
-            } catch (error) {
-                // إذا انقطع الإنترنت أو حدثت مشكلة شبكة
-                formStatus.textContent = langMsgs.error;
-                formStatus.className = "status-error";
+
+                setTimeout(() => { formStatus.textContent = ""; }, 5000);
             }
+        });
+    }
 
-            // إخفاء نص الحالة بعد 5 ثوانٍ
-            setTimeout(() => { formStatus.textContent = ""; }, 5000);
-        }
-    });
-
-    // 4. ميزة تبديل اللغة المدمجة بعد الإصلاح (Dual-Language Support)
+    // 4. ميزة تبديل اللغة المدمجة (Dual-Language Support)
     const langToggleBtn = document.getElementById("lang-toggle");
     
-    langToggleBtn.addEventListener("click", () => {
-        const currentLang = document.documentElement.getAttribute("lang");
-        const newLang = currentLang === "ar" ? "en" : "ar";
-        
-        document.documentElement.setAttribute("lang", newLang);
-        document.documentElement.setAttribute("dir", newLang === "ar" ? "rtl" : "ltr");
-        langToggleBtn.textContent = newLang === "ar" ? "EN" : "AR";
+    if (langToggleBtn) {
+        langToggleBtn.addEventListener("click", () => {
+            const currentLang = document.documentElement.getAttribute("lang");
+            const newLang = currentLang === "ar" ? "en" : "ar";
+            
+            document.documentElement.setAttribute("lang", newLang);
+            document.documentElement.setAttribute("dir", newLang === "ar" ? "rtl" : "ltr");
+            langToggleBtn.textContent = newLang === "ar" ? "EN" : "AR";
 
-        // إصلاح الخطأ في استخدام Template Literals لتغيير النصوص تلقائياً
-        const translatableElements = document.querySelectorAll("[data-ar][data-en]");
-        translatableElements.forEach(el => {
-            el.textContent = el.getAttribute(`data-${newLang}`);
+            const translatableElements = document.querySelectorAll("[data-ar][data-en]");
+            translatableElements.forEach(el => {
+                el.textContent = el.getAttribute(`data-${newLang}`);
+            });
+
+            document.querySelectorAll(".error-message").forEach(el => el.textContent = "");
+            if (formStatus) formStatus.textContent = "";
         });
-
-        // مسح رسائل الخطأ عند تغيير اللغة لتجنب التشويه البصري
-        document.querySelectorAll(".error-message").forEach(el => el.textContent = "");
-        formStatus.textContent = "";
-    });
+    }
 });
-<script src="script.js?v=2.0"></script>
