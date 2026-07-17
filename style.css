@@ -215,3 +215,18 @@ section h2::after {
 html[dir="ltr"] .project-card {
     text-align: left;
 }
+.btn-code {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 8px 16px;
+    background-color: #00bcd4; /* لون لبني مميز ومتناسق */
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.btn-code:hover {
+    background-color: #0097a7;
+}
