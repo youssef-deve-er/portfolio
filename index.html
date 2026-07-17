@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="site-title" data-ar="مطور بايثون وأتمتة المهام" data-en="Python & Automation Developer">مطور بايثون وأتمتة المهام</title>
     <link rel="stylesheet" href="style.css">
+    <!-- زر تبديل المظهر الليلي/النهاري -->
+<div class="theme-switch-wrapper">
+    <button id="theme-toggle" aria-label="Toggle Theme">
+        <span id="theme-icon">🌙</span>
+    </button>
+</div>
 </head>
 <body>
 
@@ -41,16 +47,51 @@
 
         </div>
     </section>
+    <!-- قسم الإحصائيات التفاعلية -->
+<section class="stats-section">
+    <div class="stats-container">
+        <div class="stat-card">
+            <h3 class="stat-number" data-target="15">0</h3>
+            <p data-ar="السكربتات والأدوات" data-en="Scripts & Tools">السكربتات والأدوات</p>
+        </div>
+        <div class="stat-card">
+            <h3 class="stat-number" data-target="8">0</h3>
+            <p data-ar="مواقع تم سحب بياناتها" data-en="Web Scrapers Built">مواقع تم سحب بياناتها</p>
+        </div>
+        <div class="stat-card">
+            <h3 class="stat-number" data-target="200">0</h3>
+            <p data-ar="ساعات عمل تم توفيرها" data-en="Hours of Automation">ساعات عمل تم توفيرها</p>
+        </div>
+    </div>
+</section>
 
     <!-- قسم التواصل (Contact) -->
     <section id="contact">
-        <h2 data-ar="لنتحدث عن مشروعك" data-en="Let's Talk About Your Project">لنتحدث عن مشروعك</h2>
-        <p data-ar="مستعد لتحويل أفكارك إلى حلول برمجية واقعية." data-en="Ready to turn your ideas into real software solutions.">مستعد لتحويل أفكارك إلى حلول برمجية واقعية.</p>
-        <ul>
-            <li><a href="https://www.linkedin.com/in/youssef-ben-ayed-6bb1ab423/" target="_blank">LinkedIn</a></li>
-            <li><a href="https://x.com/Youssef_deve_er" target="_blank">Twitter / X</a></li>
-            <li><a href="mailto:youssefbenayed207@outlook.com" data-ar="البريد الإلكتروني" data-en="Email">البريد الإلكتروني</a></li>
-        </ul>
+        <!-- نموذج الاتصال التفاعلي الجديد -->
+<form id="contact-form" novalidate>
+    <div class="form-group">
+        <input type="text" id="name" placeholder=" " required>
+        <label for="name" data-ar="الاسم الكامل" data-en="Full Name">الاسم الكامل</label>
+        <span class="error-message" id="name-error"></span>
+    </div>
+    
+    <div class="form-group">
+        <input type="email" id="email" placeholder=" " required>
+        <label for="email" data-ar="البريد الإلكتروني" data-en="Email Address">البريد الإلكتروني</label>
+        <span class="error-message" id="email-error"></span>
+    </div>
+    
+    <div class="form-group">
+        <textarea id="message" placeholder=" " rows="5" required></textarea>
+        <label for="message" data-ar="تفاصيل مشروعك أو رسالتك" data-en="Your Message / Project Details">تفاصيل مشروعك أو رسالتك</label>
+        <span class="error-message" id="message-error"></span>
+    </div>
+    
+    <button type="submit" id="submit-btn">
+        <span id="btn-text" data-ar="إرسال الرسالة" data-en="Send Message">إرسال الرسالة</span>
+    </button>
+    <div id="form-status"></div>
+</form>
     </section>
 
     <!-- ربط ملف الجافاسكربت -->
