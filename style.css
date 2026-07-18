@@ -167,6 +167,29 @@ section {
     margin-bottom: 1.5rem;
     font-size: 0.95rem;
 }
+.project-card {
+    background-color: var(--card-bg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.project-tags span {
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    margin-right: 5px;
+    display: inline-block;
+    margin-top: 10px;
+}
 
 .btn-code {
     display: inline-block;
