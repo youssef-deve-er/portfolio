@@ -1,101 +1,269 @@
 /* ==========================================================================
-   تنسيقات قسم المشاريع ومعرض الأعمال (Portfolio Projects)
+   المتغيرات الأساسية (الوضع الداكن والفلتر الافتراضي)
    ========================================================================== */
+:root {
+    --bg-color: #0f172a;
+    --card-bg: #1e293b;
+    --text-color: #f8fafc;
+    --text-muted: #94a3b8;
+    --primary-color: #38bdf8;
+    --primary-hover: #0ea5e9;
+    --border-color: rgba(255, 255, 255, 0.08);
+}
 
-/* حاوية شبكة المشاريع - لترتيب البطاقات بشكل احترافي */
+/* التبديل إلى الوضع الفاتح عبر السكربت */
+[data-theme="light"] {
+    --bg-color: #f8fafc;
+    --card-bg: #ffffff;
+    --text-color: #0f172a;
+    --text-muted: #64748b;
+    --primary-color: #0ea5e9;
+    --primary-hover: #0284c7;
+    --border-color: rgba(0, 0, 0, 0.08);
+}
+
+/* التنسيقات العامة للموقع */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    padding-top: 80px;
+}
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+/* الهيدر وعناصر التحكم */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border-color);
+    z-index: 1000;
+    padding: 15px 0;
+}
+
+[data-theme="light"] header {
+    background-color: rgba(248, 252, 252, 0.8);
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.logo {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-color);
+}
+
+.controls-wrapper {
+    display: flex;
+    gap: 10px;
+}
+
+.control-btn {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.control-btn:hover {
+    background: var(--primary-color);
+    color: #fff;
+}
+
+/* أقسام الموقع التلقائية */
+section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 20px;
+}
+
+#hero {
+    text-align: center;
+    padding: 80px 20px;
+}
+
+#hero h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+#hero p {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.8;
+}
+
+/* الإحصائيات */
+.stats-container {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.stat-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    flex: 1;
+    min-width: 250px;
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+/* ==========================================================================
+   شبكة المشاريع المصلحة بالكامل (Grid)
+   ========================================================================== */
 .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 25px;
-    padding: 20px 0;
+    margin-top: 30px;
     width: 100%;
 }
 
-/* تصميم بطاقة المشروع الموحد */
 .project-card {
     background-color: var(--card-bg);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--border-color);
     border-radius: 12px;
     padding: 24px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-    direction: rtl; /* لضمان تنسيق النصوص العربية والانجليزية معاً */
 }
 
-/* تأثير حركة البطاقة عند تمرير الفأرة */
 .project-card:hover {
     transform: translateY(-6px);
     border-color: var(--primary-color);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
 }
 
-/* عناوين المشاريع */
 .project-card h3 {
-    font-size: 1.4rem;
-    color: #fff;
+    font-size: 1.3rem;
     margin-bottom: 12px;
-    font-weight: 600;
+    color: var(--text-color);
 }
 
-/* وصف المشروع */
-.project-desc {
+.project-card p {
     font-size: 0.95rem;
     color: var(--text-muted);
     line-height: 1.6;
     margin-bottom: 20px;
 }
 
-/* حاوية الكلمات المفتاحية للمشروع */
 .project-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
 }
 
-/* تصميم الـ Tags الاحترافي */
-.project-tags .tag, .project-tags span {
-    background-color: rgba(48, 189, 248, 0.1); /* لون خفيف مستوحى من هويتك البصرية */
+.project-tags .tag {
+    background-color: rgba(56, 189, 248, 0.1);
     color: var(--primary-color);
-    padding: 6px 12px;
+    padding: 4px 10px;
     border-radius: 20px;
     font-size: 0.8rem;
     font-weight: 500;
-    border: 1px solid rgba(48, 189, 248, 0.2);
-    transition: background-color 0.2s ease;
+    border: 1px solid rgba(56, 189, 248, 0.15);
 }
 
-.project-card:hover .project-tags .tag {
-    background-color: rgba(48, 189, 248, 0.2);
-}
-
-/* حاوية روابط الأزرار أسفل البطاقة */
-.project-links {
-    margin-top: auto;
-    display: flex;
-    justify-content: flex-start;
-}
-
-/* زر عرض الكود المضيء والأنيق (تطابق البطاقة الأولى) */
-.project-links .control-btn, .project-links .btn-link {
+/* أزرار عرض الكود الموحدة للمشاريع */
+.btn-code {
     background-color: var(--primary-color);
-    color: #fff;
+    color: #fff !important;
     padding: 10px 20px;
     border-radius: 8px;
     font-size: 0.9rem;
     font-weight: 600;
-    text-decoration: none;
-    display: inline-block;
-    transition: background-color 0.2s ease, transform 0.2s ease;
     text-align: center;
-    border: none;
-    box-shadow: 0 4px 12px rgba(48, 189, 248, 0.3);
+    transition: background-color 0.2s, transform 0.2s;
+    display: block;
+    margin-top: auto;
+    box-shadow: 0 4px 12px rgba(56, 189, 248, 0.2);
 }
 
-/* تأثير الزر عند التمرير */
-.project-links .control-btn:hover, .project-links .btn-link:hover {
+.btn-code:hover {
     background-color: var(--primary-hover);
     transform: scale(1.02);
+}
+
+/* قسم التواصل والفورم */
+#contact-form {
+    max-width: 600px;
+    margin: 30px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.form-group input, .form-group textarea {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    padding: 15px;
+    border-radius: 8px;
+    outline: none;
+}
+
+#submit-btn {
+    background: var(--primary-color);
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+#submit-btn:hover {
+    background: var(--primary-hover);
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    list-style: none;
+    margin-top: 30px;
 }
