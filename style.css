@@ -1,331 +1,101 @@
-:root {
-    --bg-color: #0f172a;
-    --card-bg: #1e293b;
-    --text-color: #f8fafc;
-    --text-muted: #94a3b8;
-    --primary-color: #38bdf8;
-    --primary-hover: #0ea5e9;
-    --border-color: #334155;
-    --error-color: #f87171;
-    --success-color: #4ade80;
-    --transition-speed: 0.3s;
-}
+/* ==========================================================================
+   تنسيقات قسم المشاريع ومعرض الأعمال (Portfolio Projects)
+   ========================================================================== */
 
-[data-theme="light"] {
-    --bg-color: #f8fafc;
-    --card-bg: #ffffff;
-    --text-color: #0f172a;
-    --text-muted: #64748b;
-    --primary-color: #0284c7;
-    --primary-hover: #0369a1;
-    --border-color: #e2e8f0;
-    --error-color: #ef4444;
-    --success-color: #22c55e;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease, color var(--transition-speed) ease;
-}
-
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    line-height: 1.6;
-}
-
-header {
-    background-color: var(--card-bg);
-    border-bottom: 1px solid var(--border-color);
-    padding: 1rem 2rem;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-
-.header-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.logo {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: var(--primary-color);
-}
-
-.controls-wrapper {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-}
-
-.control-btn {
-    background-color: var(--bg-color);
-    border: 1px solid var(--border-color);
-    color: var(--text-color);
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.control-btn:hover {
-    border-color: var(--primary-color);
-    color: var(--primary-color);
-}
-
-section {
-    padding: 4rem 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-#hero {
-    text-align: center;
-    padding: 7rem 2rem;
-}
-
-#hero h2 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-}
-
-#hero p {
-    color: var(--text-muted);
-    font-size: 1.2rem;
-    max-width: 700px;
-    margin: 0 auto;
-}
-
-.stats-section {
-    background-color: var(--card-bg);
-    border-radius: 16px;
-    margin: 2rem auto;
-    border: 1px solid var(--border-color);
-    max-width: 1200px;
-}
-
-.stats-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
-    text-align: center;
-    padding: 2rem;
-}
-
-.stat-card h3 {
-    font-size: 3rem;
-    color: var(--primary-color);
-    margin-bottom: 0.5rem;
-}
-
-.stat-card p {
-    color: var(--text-muted);
-    font-weight: 500;
-}
-
-#projects h2, #services h2 {
-    text-align: center;
-    margin-bottom: 3rem;
-    font-size: 2rem;
-}
-
+/* حاوية شبكة المشاريع - لترتيب البطاقات بشكل احترافي */
 .projects-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
+    gap: 25px;
+    padding: 20px 0;
+    width: 100%;
 }
 
+/* تصميم بطاقة المشروع الموحد */
 .project-card {
     background-color: var(--card-bg);
-    border: 1px solid var(--border-color);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 12px;
-    padding: 2rem;
+    padding: 24px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    direction: rtl; /* لضمان تنسيق النصوص العربية والانجليزية معاً */
 }
 
-.project-card h3 {
-    margin-bottom: 1rem;
-    color: var(--text-color);
-}
-
-.project-card p {
-    color: var(--text-muted);
-    margin-bottom: 1.5rem;
-    font-size: 0.95rem;
-}
-.project-card {
-    background-color: var(--card-bg);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    padding: 20px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
+/* تأثير حركة البطاقة عند تمرير الفأرة */
 .project-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    transform: translateY(-6px);
+    border-color: var(--primary-color);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
 }
 
-.project-tags span {
+/* عناوين المشاريع */
+.project-card h3 {
+    font-size: 1.4rem;
+    color: #fff;
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+/* وصف المشروع */
+.project-desc {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+/* حاوية الكلمات المفتاحية للمشروع */
+.project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+/* تصميم الـ Tags الاحترافي */
+.project-tags .tag, .project-tags span {
+    background-color: rgba(48, 189, 248, 0.1); /* لون خفيف مستوحى من هويتك البصرية */
+    color: var(--primary-color);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    border: 1px solid rgba(48, 189, 248, 0.2);
+    transition: background-color 0.2s ease;
+}
+
+.project-card:hover .project-tags .tag {
+    background-color: rgba(48, 189, 248, 0.2);
+}
+
+/* حاوية روابط الأزرار أسفل البطاقة */
+.project-links {
+    margin-top: auto;
+    display: flex;
+    justify-content: flex-start;
+}
+
+/* زر عرض الكود المضيء والأنيق (تطابق البطاقة الأولى) */
+.project-links .control-btn, .project-links .btn-link {
     background-color: var(--primary-color);
     color: #fff;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 0.8rem;
-    margin-right: 5px;
-    display: inline-block;
-    margin-top: 10px;
-}
-
-.btn-code {
-    display: inline-block;
-    background-color: var(--primary-color);
-    color: #ffffff;
-    text-decoration: none;
-    padding: 0.6rem 1.5rem;
-    border-radius: 6px;
-    font-weight: 500;
-    text-align: center;
-    align-self: flex-start;
-}
-
-.btn-code:hover {
-    background-color: var(--primary-hover);
-}
-
-#contact {
-    text-align: center;
-}
-
-#contact h2 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-}
-
-#contact > p {
-    color: var(--text-muted);
-    margin-bottom: 3rem;
-}
-
-#contact-form {
-    max-width: 600px;
-    margin: 0 auto 4rem auto;
-    text-align: right;
-}
-
-.form-group {
-    position: relative;
-    margin-bottom: 2rem;
-}
-
-.form-group input,
-.form-group textarea {
-    width: 100%;
-    padding: 1rem;
-    background-color: var(--card-bg);
-    border: 1px solid var(--border-color);
+    padding: 10px 20px;
     border-radius: 8px;
-    color: var(--text-color);
-    font-size: 1rem;
-    outline: none;
-}
-
-.form-group label {
-    position: absolute;
-    right: 1rem;
-    top: 1rem;
-    color: var(--text-muted);
-    pointer-events: none;
-    transition: all 0.2s ease;
-    background-color: var(--card-bg);
-    padding: 0 0.5rem;
-}
-
-/* إصلاح حركة الأنيميشن وحل مشكلة الـ placeholder-shown */
-.form-group input:focus ~ label,
-.form-group input:not(:placeholder-shown) ~ label,
-.form-group textarea:focus ~ label,
-.form-group textarea:not(:placeholder-shown) ~ label {
-    top: -0.7rem;
-    right: 0.8rem;
-    font-size: 0.8rem;
-    color: var(--primary-color);
-}
-
-.form-group input:focus,
-.form-group textarea:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
-}
-
-.error-message {
-    color: var(--error-color);
-    font-size: 0.85rem;
-    display: block;
-    margin-top: 0.3rem;
-    height: 1rem;
-}
-
-#submit-btn {
-    width: 100%;
-    padding: 1rem;
-    background-color: var(--primary-color);
-    color: white;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    text-align: center;
     border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: bold;
-    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(48, 189, 248, 0.3);
 }
 
-#submit-btn:hover {
+/* تأثير الزر عند التمرير */
+.project-links .control-btn:hover, .project-links .btn-link:hover {
     background-color: var(--primary-hover);
+    transform: scale(1.02);
 }
-
-#form-status {
-    margin-top: 1rem;
-    font-weight: 500;
-    text-align: center;
-}
-
-.status-success { color: var(--success-color); }
-.status-error { color: var(--error-color); }
-
-.social-links {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-}
-
-.social-links a {
-    color: var(--text-muted);
-    text-decoration: none;
-    font-weight: 500;
-}
-
-.social-links a:hover {
-    color: var(--primary-color);
-}
-
-/* اتجاهات اللغات وتحسين التوافقية */
-html[dir="ltr"] #contact-form { text-align: left; }
-html[dir="ltr"] .form-group label { left: 1rem; right: auto; }
-html[dir="ltr"] .form-group input:focus ~ label,
-html[dir="ltr"] .form-group input:not(:placeholder-shown) ~ label,
-html[dir="ltr"] .form-group textarea:focus ~ label,
-html[dir="ltr"] .form-group textarea:not(:placeholder-shown) ~ label { left: 0.8rem; right: auto; }
