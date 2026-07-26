@@ -1,0 +1,7 @@
+# robots.txt — https://youssef-deve-er.github.io/portfolio/
+# الموقع بالكامل مفتوح للأرشفة؛ لا توجد مسارات خاصة.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://youssef-deve-er.github.io/portfolio/sitemap.xml

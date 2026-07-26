@@ -5,6 +5,9 @@
    3. نظام اللغة المحفوظ في localStorage (+ تحديث ARIA والميتا)
    4. تحقق النموذج + حالة تحميل زر الإرسال + إعلانات ARIA الحية
    5. زر العودة للأعلى
+   6. سنة حقوق النشر
+   7. شريط التنقل (قائمة الجوال + تمييز القسم النشط)
+   8. شريط تقدّم القراءة
    ========================================================================== */
 
 const init = () => {
@@ -328,6 +331,149 @@ const init = () => {
        ====================================================================== */
     const yearEl = document.getElementById("current-year");
     if (yearEl) yearEl.textContent = String(new Date().getFullYear());
+
+    /* ======================================================================
+       7. شريط التنقل: قائمة الجوال + تمييز القسم النشط
+       ====================================================================== */
+    const primaryNav = document.getElementById("primary-nav");
+    const navToggle = document.getElementById("nav-toggle");
+    const navLinks = Array.from(document.querySelectorAll(".nav-link"));
+
+    const NAV_LABELS = {
+        ar: { open: "فتح قائمة التنقل", close: "إغلاق قائمة التنقل" },
+        en: { open: "Open navigation menu", close: "Close navigation menu" }
+    };
+
+    const MOBILE_NAV_QUERY = window.matchMedia("(max-width: 900px)");
+
+    if (primaryNav && navToggle) {
+        const setNavOpen = (open) => {
+            primaryNav.classList.toggle("is-open", open);
+            navToggle.setAttribute("aria-expanded", String(open));
+
+            // حدّث التسمية لتصف الإجراء التالي، وخزّنها بلغتين ليتولاها مبدّل اللغة
+            const labels = NAV_LABELS[getLang()];
+            const label = open ? labels.close : labels.open;
+            navToggle.setAttribute("aria-label", label);
+            navToggle.setAttribute("data-ar-label", open ? NAV_LABELS.ar.close : NAV_LABELS.ar.open);
+            navToggle.setAttribute("data-en-label", open ? NAV_LABELS.en.close : NAV_LABELS.en.open);
+        };
+
+        navToggle.addEventListener("click", () => {
+            setNavOpen(navToggle.getAttribute("aria-expanded") !== "true");
+        });
+
+        // أغلق القائمة بعد اختيار وجهة
+        navLinks.forEach(link => {
+            link.addEventListener("click", () => {
+                if (MOBILE_NAV_QUERY.matches) setNavOpen(false);
+            });
+        });
+
+        // Escape يغلق القائمة ويعيد التركيز إلى الزر
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape" && navToggle.getAttribute("aria-expanded") === "true") {
+                setNavOpen(false);
+                navToggle.focus();
+            }
+        });
+
+        // نقرة خارج الهيدر تغلق القائمة
+        document.addEventListener("click", (e) => {
+            if (navToggle.getAttribute("aria-expanded") !== "true") return;
+            if (!e.target.closest("header")) setNavOpen(false);
+        });
+
+        // العودة إلى سطح المكتب: أزل حالة الفتح حتى لا تبقى عالقة
+        MOBILE_NAV_QUERY.addEventListener("change", (e) => {
+            if (!e.matches) setNavOpen(false);
+        });
+    }
+
+    /* تمييز القسم الظاهر حالياً في شريط التنقل.
+       نراقب الأقسام المرتبطة فقط، ونختار الأعلى ظهوراً في نافذة العرض. */
+    if (navLinks.length && "IntersectionObserver" in window) {
+        const sectionsMap = new Map();
+
+        navLinks.forEach(link => {
+            const id = link.getAttribute("href");
+            if (!id || !id.startsWith("#")) return;
+            const section = document.querySelector(id);
+            if (section) sectionsMap.set(section, link);
+        });
+
+        if (sectionsMap.size) {
+            const visible = new Set();
+
+            const setActive = (activeLink) => {
+                navLinks.forEach(link => {
+                    const isActive = link === activeLink;
+                    link.classList.toggle("is-active", isActive);
+                    // aria-current يُعلن القسم الحالي لقارئات الشاشة
+                    if (isActive) {
+                        link.setAttribute("aria-current", "true");
+                    } else {
+                        link.removeAttribute("aria-current");
+                    }
+                });
+            };
+
+            const navObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        visible.add(entry.target);
+                    } else {
+                        visible.delete(entry.target);
+                    }
+                });
+
+                if (!visible.size) return;
+
+                // الأقرب إلى أعلى الصفحة هو القسم الذي يقرأه الزائر
+                const topMost = Array.from(visible).sort(
+                    (a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top
+                )[0];
+
+                setActive(sectionsMap.get(topMost));
+            }, {
+                // الهيدر يغطي ~80px من الأعلى؛ نستبعده من منطقة الرصد
+                rootMargin: "-80px 0px -55% 0px",
+                threshold: 0
+            });
+
+            sectionsMap.forEach((_link, section) => navObserver.observe(section));
+        }
+    }
+
+    /* ======================================================================
+       8. شريط تقدّم القراءة
+       ====================================================================== */
+    const progressBar = document.getElementById("reading-progress-bar");
+
+    if (progressBar) {
+        let ticking = false;
+
+        const updateProgress = () => {
+            const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+            // صفحة أقصر من الشاشة: لا تقدّم يُقاس (نتجنب القسمة على صفر)
+            const percent = scrollable > 0
+                ? Math.min((window.scrollY / scrollable) * 100, 100)
+                : 0;
+            progressBar.style.width = `${percent}%`;
+            ticking = false;
+        };
+
+        // rAF throttling: تحديث واحد لكل إطار رسم مهما تكرر حدث التمرير
+        const onScroll = () => {
+            if (ticking) return;
+            ticking = true;
+            requestAnimationFrame(updateProgress);
+        };
+
+        updateProgress();
+        window.addEventListener("scroll", onScroll, { passive: true });
+        window.addEventListener("resize", onScroll, { passive: true });
+    }
 };
 
 /* شغّل التهيئة مرة واحدة فقط.
