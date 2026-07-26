@@ -4,21 +4,88 @@
 :root {
     --bg-color: #0b0f19;
     --card-bg: rgba(20, 15, 35, 0.5);
+    --card-bg-solid: #141023;
     --text-color: #f8fafc;
     --text-muted: #94a3b8;
     --primary-color: #38bdf8;
     --primary-hover: #0ea5e9;
+    /* لون خلفية الأزرار (منفصل عن لون النص للتحكم في التباين لكل وضع) */
+    /* نص داكن فوق الأزرق الفاتح = 8.94:1 (الأبيض فوقه كان 2.14:1 ✗) */
+    --btn-bg: #38bdf8;
+    --btn-bg-hover: #7dd3fc;
+    --btn-fg: #0b0f19;
+    --accent-purple: #a855f7;
     --border-color: rgba(255, 255, 255, 0.08);
 }
 
 [data-theme="light"] {
     --bg-color: #f1f5f9;
     --card-bg: rgba(255, 255, 255, 0.85);
+    --card-bg-solid: #ffffff;
     --text-color: #0f172a;
     --text-muted: #475569;
-    --primary-color: #0ea5e9;
-    --primary-hover: #0284c7;
+    /* --primary-color يُستخدم للنصوص والحدود: مُعتّم ليحقق 5.3:1 على البطاقة */
+    --primary-color: #0369a1;
+    --primary-hover: #075985;
+    /* لون منفصل للأزرار: النص الأبيض فوقه يحقق 5.93:1 (كان #0ea5e9 = 2.77:1 ✗) */
+    --btn-bg: #0369a1;
+    --btn-bg-hover: #075985;
+    --btn-fg: #ffffff;
+    --accent-purple: #7e22ce;
     --border-color: rgba(0, 0, 0, 0.1);
+}
+
+/* ==========================================================================
+   إصلاحات تباين الوضع النهاري (WCAG AA)
+   الألوان الزاهية المصممة للخلفية الداكنة تفشل فوق الخلفية الفاتحة،
+   لذا تُستبدل هنا بنظائر مُعتّمة تحقق 4.5:1 على الأقل.
+   ========================================================================== */
+
+/* العنوان المتدرج كان يبدأ بالأبيض (#ffffff) — يختفي تماماً فوق خلفية فاتحة */
+[data-theme="light"] .journey-section .section-title {
+    background: linear-gradient(135deg, #0f172a 0%, #7e22ce 50%, #1d4ed8 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* خلفية الوسم كانت شفافة جداً فوق الأبيض → تكاد لا تُرى */
+[data-theme="light"] .tag {
+    background: rgba(3, 105, 161, 0.12);
+}
+
+[data-theme="light"] .timeline-date {
+    background: rgba(3, 105, 161, 0.12);
+    border-color: rgba(3, 105, 161, 0.3);
+}
+
+/* حدود بنفسجية باهتة فوق الأبيض */
+[data-theme="light"] .timeline-content,
+[data-theme="light"] .project-card {
+    border-color: rgba(126, 34, 206, 0.25);
+}
+
+[data-theme="light"] .timeline-content:hover,
+[data-theme="light"] .project-card:hover {
+    border-color: rgba(126, 34, 206, 0.55);
+    box-shadow: 0 15px 30px rgba(126, 34, 206, 0.12);
+}
+
+[data-theme="light"] .timeline-dot {
+    background-color: #7e22ce;
+    box-shadow: 0 0 12px rgba(126, 34, 206, 0.5);
+}
+
+[data-theme="light"] .timeline::before {
+    background: linear-gradient(180deg, #7e22ce 0%, #1d4ed8 50%, #be185d 100%);
+}
+
+[data-theme="light"] .project-details {
+    border-color: rgba(3, 105, 161, 0.2);
+}
+
+[data-theme="light"] .project-gif-container {
+    border-color: rgba(126, 34, 206, 0.3);
 }
 
 /* التنسيقات العامة للموقع */
@@ -70,7 +137,7 @@ header {
 }
 
 .logo {
-    font-size: 1.6rem;
+    font-size: clamp(1.15rem, 1rem + 0.73vw, 1.6rem);
     font-weight: 700;
     color: var(--text-color);
 }
@@ -92,8 +159,8 @@ header {
 }
 
 .control-btn:hover {
-    background: var(--primary-color);
-    color: #fff;
+    background: var(--btn-bg);
+    color: var(--btn-fg, #fff);
 }
 
 /* الأقسام الهيكلية */
@@ -105,7 +172,8 @@ section {
 
 .section-title-center {
     text-align: center;
-    font-size: 2.2rem;
+    /* 1.6rem @320px  ->  2.2rem @1200px */
+    font-size: clamp(1.6rem, 1.38rem + 1.09vw, 2.2rem);
     font-weight: 800;
     margin-bottom: 40px;
     color: var(--text-color);
@@ -118,12 +186,13 @@ section {
 }
 
 #hero h2 {
-    font-size: 2.5rem;
+    /* 1.75rem @320px  ->  2.5rem @1200px */
+    font-size: clamp(1.75rem, 1.48rem + 1.36vw, 2.5rem);
     margin-bottom: 20px;
 }
 
 #hero p {
-    font-size: 1.2rem;
+    font-size: clamp(1rem, 0.93rem + 0.36vw, 1.2rem);
     color: var(--text-muted);
     max-width: 800px;
     margin: 0 auto;
@@ -140,7 +209,7 @@ section {
 
 .journey-section .section-title {
     text-align: center;
-    font-size: 2.5rem;
+    font-size: clamp(1.75rem, 1.48rem + 1.36vw, 2.5rem);
     font-weight: 800;
     background: linear-gradient(135deg, #ffffff 0%, #a855f7 50%, #3b82f6 100%);
     -webkit-background-clip: text;
@@ -224,7 +293,7 @@ html[dir="ltr"] .timeline-dot { left: -42px; }
     display: inline-block;
     font-size: 0.85rem;
     font-weight: 700;
-    color: #38bdf8;
+    color: var(--primary-color);
     background: rgba(56, 189, 248, 0.1);
     padding: 4px 12px;
     border-radius: 20px;
@@ -264,7 +333,7 @@ html[dir="ltr"] .timeline-dot { left: -42px; }
 }
 
 .stat-number {
-    font-size: 2.5rem;
+    font-size: clamp(1.9rem, 1.68rem + 1.09vw, 2.5rem);
     color: var(--primary-color);
     margin-bottom: 10px;
 }
@@ -341,7 +410,7 @@ html[dir="ltr"] .timeline-dot { left: -42px; }
 }
 
 .detail-text strong {
-    color: #38bdf8;
+    color: var(--primary-color);
     margin-left: 4px;
     margin-right: 4px;
 }
@@ -351,7 +420,7 @@ html[dir="ltr"] .timeline-dot { left: -42px; }
 }
 
 .tech-stack-text {
-    color: #a855f7 !important;
+    color: var(--accent-purple) !important;
     font-family: monospace;
     font-weight: bold;
 }
@@ -373,8 +442,8 @@ html[dir="ltr"] .timeline-dot { left: -42px; }
 }
 
 .btn-code {
-    background-color: var(--primary-color);
-    color: #fff !important;
+    background-color: var(--btn-bg);
+    color: var(--btn-fg, #fff) !important;
     padding: 10px 20px;
     border-radius: 8px;
     font-size: 0.9rem;
@@ -386,7 +455,7 @@ html[dir="ltr"] .timeline-dot { left: -42px; }
 }
 
 .btn-code:hover {
-    background-color: var(--primary-hover);
+    background-color: var(--btn-bg-hover);
 }
 
 /* النموذج والتواصل */
@@ -501,8 +570,8 @@ a:focus-visible {
 }
 
 #submit-btn {
-    background: var(--primary-color);
-    color: white;
+    background: var(--btn-bg);
+    color: var(--btn-fg, #fff);
     padding: 15px;
     border: none;
     border-radius: 8px;
@@ -541,4 +610,147 @@ a:focus-visible {
 
 .project-card:hover .project-preview-gif {
     transform: scale(1.02);
+}
+
+/* ==========================================================================
+   Media Queries — التجاوب مع الشاشات (المرحلة الثانية، البند 10)
+   نقاط التوقف: 1024px لوحي أفقي · 768px لوحي/جوال كبير · 480px جوال
+   ========================================================================== */
+
+/* ------- شاشات لوحية أفقية ------- */
+@media (max-width: 1024px) {
+    section {
+        padding: 45px 18px;
+    }
+
+    .projects-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+    }
+}
+
+/* ------- لوحي رأسي / جوال كبير ------- */
+@media (max-width: 768px) {
+    body {
+        padding-top: 132px; /* الهيدر يصبح عمودين فيزداد ارتفاعه */
+    }
+
+    /* الهيدر: الشعار سطر وأزرار التحكم سطر تحته */
+    .header-container {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .controls-wrapper {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    section,
+    .journey-section {
+        padding: 40px 16px;
+    }
+
+    #hero {
+        padding: 45px 16px;
+    }
+
+    /* بطاقة واحدة في الصف — أهم إصلاح للجوال */
+    .projects-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .stats-container {
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .stat-card {
+        min-width: 0;   /* كان 250px ويسبب تجاوز الشاشة على 320px */
+        width: 100%;
+        padding: 22px;
+    }
+
+    .timeline-content {
+        padding: 18px;
+    }
+
+    /* الخط الزمني: تقليل الإزاحة حتى لا تُقصّ النقاط خارج الشاشة */
+    html[dir="rtl"] .timeline { padding-right: 26px; }
+    html[dir="ltr"] .timeline { padding-left: 26px; }
+    html[dir="rtl"] .timeline-dot { right: -33px; }
+    html[dir="ltr"] .timeline-dot { left: -33px; }
+
+    /* backdrop-filter مكلف جداً على معالجات الجوال → خلفية صلبة */
+    .project-card,
+    .timeline-content,
+    .stat-card {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        background: var(--card-bg-solid);
+    }
+
+    .social-links {
+        flex-wrap: wrap;
+        gap: 14px;
+    }
+}
+
+/* ------- جوال ------- */
+@media (max-width: 480px) {
+    body {
+        padding-top: 126px;
+    }
+
+    section,
+    .journey-section {
+        padding: 32px 12px;
+    }
+
+    .control-btn {
+        padding: 7px 12px;
+        font-size: 0.85rem;
+    }
+
+    .project-card,
+    .timeline-content {
+        padding: 16px;
+    }
+
+    .project-details {
+        padding: 12px;
+    }
+
+    /* أهداف لمس مريحة (‏≥44px) للأزرار والروابط */
+    .btn-code,
+    #submit-btn {
+        padding: 14px 18px;
+        font-size: 0.95rem;
+    }
+
+    .timeline-date {
+        font-size: 0.8rem;
+    }
+
+    .detail-text {
+        font-size: 0.86rem;
+    }
+}
+
+/* ------- احترام تفضيل تقليل الحركة ------- */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .project-card:hover .project-preview-gif {
+        transform: none;
+    }
 }
