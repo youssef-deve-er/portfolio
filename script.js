@@ -1,113 +1,340 @@
-document.addEventListener("DOMContentLoaded", () => {
-    
-    // 1. تبديل الوضع (Dark / Light)
+/* ==========================================================================
+   script.js — المرحلة الثالثة
+   1. الثيم (مع أيقونة تعرض الوجهة لا الحالة)
+   2. العدّادات بـ requestAnimationFrame (مدة موحّدة + احترام تقليل الحركة)
+   3. نظام اللغة المحفوظ في localStorage (+ تحديث ARIA والميتا)
+   4. تحقق النموذج + حالة تحميل زر الإرسال + إعلانات ARIA الحية
+   5. زر العودة للأعلى
+   ========================================================================== */
+
+const init = () => {
+
+    const html = document.documentElement;
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    /* ======================================================================
+       1. تبديل الوضع (Dark / Light)
+       الأيقونة تعرض الوجهة (ما سيحدث عند الضغط) لا الحالة الحالية.
+       الثيم نفسه مُطبَّق مسبقاً بالسكربت المضمّن في <head> لمنع الوميض (FOUC).
+       ====================================================================== */
     const themeToggleBtn = document.getElementById("theme-toggle");
     const themeIcon = document.getElementById("theme-icon");
-    const savedTheme = localStorage.getItem("theme") || "dark";
-    
-    document.documentElement.setAttribute("data-theme", savedTheme);
-    if (themeIcon) themeIcon.textContent = savedTheme === "dark" ? "🌙" : "☀️";
+
+    const THEME_LABELS = {
+        ar: { toDark: "التبديل إلى الوضع الليلي", toLight: "التبديل إلى الوضع النهاري" },
+        en: { toDark: "Switch to dark mode", toLight: "Switch to light mode" }
+    };
+
+    const applyTheme = (theme) => {
+        html.setAttribute("data-theme", theme);
+        localStorage.setItem("theme", theme);
+
+        // اعرض ما سيحدث عند الضغط: في الليل نعرض الشمس، وفي النهار نعرض القمر
+        if (themeIcon) themeIcon.textContent = theme === "dark" ? "☀️" : "🌙";
+
+        if (themeToggleBtn) {
+            const lang = html.getAttribute("lang") === "en" ? "en" : "ar";
+            const labels = THEME_LABELS[lang];
+            themeToggleBtn.setAttribute("aria-label", theme === "dark" ? labels.toLight : labels.toDark);
+            // زر ثنائي الحالة: يُعلن لقارئ الشاشة ما إذا كان الوضع الليلي مفعّلاً
+            themeToggleBtn.setAttribute("aria-pressed", String(theme === "dark"));
+        }
+    };
+
+    applyTheme(html.getAttribute("data-theme") || localStorage.getItem("theme") || "dark");
 
     if (themeToggleBtn) {
         themeToggleBtn.addEventListener("click", () => {
-            const currentTheme = document.documentElement.getAttribute("data-theme");
-            const newTheme = currentTheme === "dark" ? "light" : "dark";
-            document.documentElement.setAttribute("data-theme", newTheme);
-            localStorage.setItem("theme", newTheme);
-            if (themeIcon) themeIcon.textContent = newTheme === "dark" ? "🌙" : "☀️";
+            applyTheme(html.getAttribute("data-theme") === "dark" ? "light" : "dark");
         });
     }
 
-    // 2. العداد المتحرك للإحصائيات
+    /* ======================================================================
+       2. العدّاد المتحرك للإحصائيات
+       المشكلة السابقة: `target / 100` مع `Math.ceil` جعل كل عدّاد ينتهي في
+       وقت مختلف (8 ينتهي في 120ms بينما 200 يستغرق 1500ms).
+       الحل: مدة موحّدة (1500ms) مع requestAnimationFrame و easing.
+       ====================================================================== */
     const statsSection = document.querySelector(".stats-section");
     const statNumbers = document.querySelectorAll(".stat-number");
+    const COUNTER_DURATION = 1500;
     let animated = false;
 
     const startCounting = () => {
         statNumbers.forEach(stat => {
-            const target = +stat.getAttribute("data-target");
-            const speed = 100;
-            const increment = target / speed;
+            const target = Number(stat.getAttribute("data-target")) || 0;
 
-            const updateCount = () => {
-                const current = +stat.innerText;
-                if (current < target) {
-                    stat.innerText = Math.ceil(current + increment);
-                    setTimeout(updateCount, 15);
+            // من يفضّل تقليل الحركة يرى القيمة النهائية فوراً بلا أي عدّ
+            if (prefersReducedMotion.matches) {
+                stat.textContent = String(target);
+                return;
+            }
+
+            const startTime = performance.now();
+            const tick = (now) => {
+                const progress = Math.min((now - startTime) / COUNTER_DURATION, 1);
+                const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+                stat.textContent = String(Math.round(target * eased));
+                if (progress < 1) {
+                    requestAnimationFrame(tick);
                 } else {
-                    stat.innerText = target;
+                    stat.textContent = String(target); // ضمان الرقم الدقيق في النهاية
                 }
             };
-            updateCount();
+            requestAnimationFrame(tick);
         });
     };
 
-    const statsObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting && !animated) {
-                startCounting();
-                animated = true;
-            }
+    if (statsSection && statNumbers.length) {
+        if (!("IntersectionObserver" in window)) {
+            startCounting();
+        } else {
+            const statsObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !animated) {
+                        animated = true;
+                        startCounting();
+                        observer.disconnect(); // لا حاجة للمراقبة بعد التشغيل
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            statsObserver.observe(statsSection);
+        }
+    }
+
+    /* ======================================================================
+       3. نظام الترجمة (RTL / LTR) مع الحفظ في localStorage
+       ====================================================================== */
+    const langToggleBtn = document.getElementById("lang-toggle");
+    const metaDescription = document.querySelector('meta[name="description"]');
+    const pageTitle = document.querySelector("title");
+
+    const LANG_LABELS = {
+        ar: "التبديل إلى الإنجليزية / Switch to English",
+        en: "Switch to Arabic / التبديل إلى العربية"
+    };
+
+    const getLang = () => (html.getAttribute("lang") === "en" ? "en" : "ar");
+
+    const applyLang = (lang) => {
+        const safeLang = lang === "en" ? "en" : "ar";
+
+        html.setAttribute("lang", safeLang);
+        html.setAttribute("dir", safeLang === "ar" ? "rtl" : "ltr");
+        localStorage.setItem("lang", safeLang);
+
+        // النصوص المرئية
+        document.querySelectorAll("[data-ar][data-en]").forEach(el => {
+            const value = el.getAttribute(`data-${safeLang}`);
+            if (value !== null) el.textContent = value;
         });
-    }, { threshold: 0.5 });
 
-    if (statsSection) statsObserver.observe(statsSection);
+        // سمات ARIA وaria-label القابلة للترجمة
+        document.querySelectorAll("[data-ar-label][data-en-label]").forEach(el => {
+            const value = el.getAttribute(`data-${safeLang}-label`);
+            if (value !== null) el.setAttribute("aria-label", value);
+        });
 
-    // 3. التحقق من نموذج التواصل
+        // عنوان الصفحة ووصفها (لم يكونا يُترجمان سابقاً)
+        if (pageTitle) {
+            const t = pageTitle.getAttribute(`data-${safeLang}`);
+            if (t) document.title = t;
+        }
+        if (metaDescription) {
+            const d = metaDescription.getAttribute(`data-${safeLang}`);
+            if (d) metaDescription.setAttribute("content", d);
+        }
+
+        if (langToggleBtn) {
+            langToggleBtn.textContent = safeLang === "ar" ? "EN" : "AR";
+            langToggleBtn.setAttribute("aria-label", LANG_LABELS[safeLang]);
+        }
+
+        // أعد ضبط تسمية زر الثيم باللغة الجديدة
+        applyThemeLabelOnly();
+    };
+
+    const applyThemeLabelOnly = () => {
+        if (!themeToggleBtn) return;
+        const theme = html.getAttribute("data-theme") === "light" ? "light" : "dark";
+        const labels = THEME_LABELS[getLang()];
+        themeToggleBtn.setAttribute("aria-label", theme === "dark" ? labels.toLight : labels.toDark);
+    };
+
+    // اللغة الأولية مُطبَّقة على <html> بالسكربت المضمّن؛ نكمل هنا ترجمة المحتوى
+    applyLang(html.getAttribute("lang") || localStorage.getItem("lang") || "ar");
+
+    if (langToggleBtn) {
+        langToggleBtn.addEventListener("click", () => {
+            applyLang(getLang() === "ar" ? "en" : "ar");
+        });
+    }
+
+    /* ======================================================================
+       4. نموذج التواصل: تحقق + حالة تحميل + إعلانات ARIA
+       ====================================================================== */
     const contactForm = document.getElementById("contact-form");
     const formStatus = document.getElementById("form-status");
+    const submitBtn = document.getElementById("submit-btn");
+    const btnText = document.getElementById("btn-text");
+
+    const FORM_TEXT = {
+        ar: {
+            required: "هذا الحقل مطلوب",
+            invalidEmail: "بريد إلكتروني غير صالح",
+            shortMessage: "الرسالة قصيرة جداً (10 أحرف على الأقل)",
+            sending: "جاري الإرسال...",
+            success: "تم إرسال الرسالة بنجاح!",
+            error: "حدث خطأ أثناء الإرسال. حاول مرة أخرى."
+        },
+        en: {
+            required: "This field is required",
+            invalidEmail: "Invalid email address",
+            shortMessage: "Message is too short (10 characters minimum)",
+            sending: "Sending...",
+            success: "Message sent successfully!",
+            error: "Something went wrong. Please try again."
+        }
+    };
+
+    const setFieldError = (id, message) => {
+        const field = document.getElementById(id);
+        const errorEl = document.getElementById(`${id}-error`);
+        const group = field ? field.closest(".form-group") : null;
+
+        if (errorEl) errorEl.textContent = message || "";
+        if (group) group.classList.toggle("has-error", Boolean(message));
+        if (field) field.setAttribute("aria-invalid", message ? "true" : "false");
+    };
+
+    const validateForm = (lang) => {
+        const t = FORM_TEXT[lang];
+        let firstInvalid = null;
+
+        ["name", "email", "message"].forEach(id => setFieldError(id, ""));
+
+        const name = (document.getElementById("name")?.value || "").trim();
+        const email = (document.getElementById("email")?.value || "").trim();
+        const message = (document.getElementById("message")?.value || "").trim();
+
+        if (!name) {
+            setFieldError("name", t.required);
+            firstInvalid = firstInvalid || "name";
+        }
+
+        if (!email) {
+            setFieldError("email", t.required);
+            firstInvalid = firstInvalid || "email";
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            setFieldError("email", t.invalidEmail);
+            firstInvalid = firstInvalid || "email";
+        }
+
+        if (!message) {
+            setFieldError("message", t.required);
+            firstInvalid = firstInvalid || "message";
+        } else if (message.length < 10) {
+            setFieldError("message", t.shortMessage);
+            firstInvalid = firstInvalid || "message";
+        }
+
+        // انقل التركيز إلى أول حقل خاطئ — مهم لمستخدمي الكيبورد وقارئات الشاشة
+        if (firstInvalid) document.getElementById(firstInvalid)?.focus();
+
+        return !firstInvalid;
+    };
+
+    const setStatus = (message, type) => {
+        if (!formStatus) return;
+        formStatus.textContent = message;
+        formStatus.classList.remove("is-success", "is-error");
+        if (type) formStatus.classList.add(`is-${type}`);
+    };
 
     if (contactForm) {
+        // امسح رسالة الخطأ فور بدء المستخدم في تصحيح الحقل
+        ["name", "email", "message"].forEach(id => {
+            document.getElementById(id)?.addEventListener("input", () => setFieldError(id, ""));
+        });
+
         contactForm.addEventListener("submit", async (e) => {
             e.preventDefault();
-            const currentLang = document.documentElement.getAttribute("lang") || "ar";
-            
-            const messages = {
-                ar: { success: "تم إرسال الرسالة بنجاح!", error: "حدث خطأ أثناء الإرسال." },
-                en: { success: "Message sent successfully!", error: "Something went wrong." }
-            };
 
-            const formData = new FormData(contactForm);
+            const lang = getLang();
+            const t = FORM_TEXT[lang];
+
+            setStatus("", null);
+            if (!validateForm(lang)) return;
+
+            const originalBtnText = btnText ? btnText.textContent : "";
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.setAttribute("aria-busy", "true");
+            }
+            if (btnText) btnText.textContent = t.sending;
 
             try {
                 const response = await fetch(contactForm.action, {
-                    method: contactForm.method,
-                    body: formData,
-                    headers: { 'Accept': 'application/json' }
+                    method: contactForm.method || "POST",
+                    body: new FormData(contactForm),
+                    headers: { "Accept": "application/json" }
                 });
 
                 if (response.ok) {
-                    formStatus.textContent = messages[currentLang].success;
-                    formStatus.style.color = "#38bdf8";
+                    setStatus(t.success, "success");
                     contactForm.reset();
+                    ["name", "email", "message"].forEach(id => setFieldError(id, ""));
                 } else {
-                    formStatus.textContent = messages[currentLang].error;
-                    formStatus.style.color = "#ef4444";
+                    setStatus(t.error, "error");
                 }
             } catch (error) {
-                formStatus.textContent = messages[currentLang].error;
-                formStatus.style.color = "#ef4444";
+                setStatus(t.error, "error");
+            } finally {
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.removeAttribute("aria-busy");
+                }
+                if (btnText) btnText.textContent = originalBtnText;
             }
         });
     }
 
-    // 4. نظام الترجمة المزدوج وتعديل اتجاه الصفحة (RTL / LTR)
-    const langToggleBtn = document.getElementById("lang-toggle");
-    
-    if (langToggleBtn) {
-        langToggleBtn.addEventListener("click", () => {
-            const currentLang = document.documentElement.getAttribute("lang");
-            const newLang = currentLang === "ar" ? "en" : "ar";
-            
-            document.documentElement.setAttribute("lang", newLang);
-            document.documentElement.setAttribute("dir", newLang === "ar" ? "rtl" : "ltr");
-            langToggleBtn.textContent = newLang === "ar" ? "EN" : "AR";
+    /* ======================================================================
+       5. زر العودة للأعلى
+       ====================================================================== */
+    const backToTopBtn = document.getElementById("back-to-top");
 
-            // ترجمة جميع العناصر التي تحتوي على خصائص data-ar و data-en
-            const translatableElements = document.querySelectorAll("[data-ar][data-en]");
-            translatableElements.forEach(el => {
-                el.textContent = el.getAttribute(`data-${newLang}`);
+    if (backToTopBtn) {
+        const toggleBackToTop = () => {
+            backToTopBtn.classList.toggle("is-visible", window.scrollY > 400);
+        };
+
+        toggleBackToTop();
+        window.addEventListener("scroll", toggleBackToTop, { passive: true });
+
+        backToTopBtn.addEventListener("click", () => {
+            window.scrollTo({
+                top: 0,
+                behavior: prefersReducedMotion.matches ? "auto" : "smooth"
             });
+            // أعد التركيز إلى بداية الصفحة لمستخدمي الكيبورد
+            document.getElementById("main-content")?.focus();
         });
     }
-});
+
+    /* ======================================================================
+       6. سنة حقوق النشر في التذييل (تتحدث تلقائياً)
+       ====================================================================== */
+    const yearEl = document.getElementById("current-year");
+    if (yearEl) yearEl.textContent = String(new Date().getFullYear());
+};
+
+/* شغّل التهيئة مرة واحدة فقط.
+   إذا حُمّل السكربت بعد اكتمال تحليل الـ DOM (مثل defer أو حقن متأخر)
+   فإن حدث DOMContentLoaded يكون قد مضى ولن يُطلق أبداً. */
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init, { once: true });
+} else {
+    init();
+}
