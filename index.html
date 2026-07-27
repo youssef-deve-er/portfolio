@@ -217,10 +217,11 @@
                  aria-label="التنقل الرئيسي"
                  data-ar-label="التنقل الرئيسي" data-en-label="Main navigation">
                 <ul>
-                    <li><a href="#journey"  class="nav-link" data-ar="رحلتي"   data-en="Journey">رحلتي</a></li>
-                    <li><a href="#services" class="nav-link" data-ar="الخدمات" data-en="Services">الخدمات</a></li>
+                    <li><a href="#journey"  class="nav-link" data-ar="رحلتي"    data-en="Journey">رحلتي</a></li>
+                    <li><a href="#skills"   class="nav-link" data-ar="المهارات" data-en="Skills">المهارات</a></li>
+                    <li><a href="#services" class="nav-link" data-ar="الخدمات"  data-en="Services">الخدمات</a></li>
                     <li><a href="#projects" class="nav-link" data-ar="المشاريع" data-en="Projects">المشاريع</a></li>
-                    <li><a href="#contact"  class="nav-link" data-ar="تواصل"   data-en="Contact">تواصل</a></li>
+                    <li><a href="#contact"  class="nav-link" data-ar="تواصل"    data-en="Contact">تواصل</a></li>
                 </ul>
             </nav>
 
@@ -334,6 +335,132 @@
         </div>
     </section>
 
+    <!-- ======================================================================
+         قسم المهارات — المرحلة (ب) البند 1
+         أشرطة تقدّم متحركة (عند دخول القسم للعرض لأول مرة) باستخدام منطق
+         rAF الموحّد مع العدّاد الرقمي. كل مهارة موصوفة بـ name/level/data-ar/data-en
+         لاحترام ثنائية اللغة دون تكرار أي نص داخل CSS.
+         ====================================================================== -->
+    <section id="skills" class="skills-section" aria-labelledby="skills-title">
+        <h2 class="section-title-center" id="skills-title"
+            data-ar="مهاراتي التقنية" data-en="My Technical Skills">مهاراتي التقنية</h2>
+        <p class="section-subtitle-center"
+           data-ar="مستوى إتقاني في التقنيات الأساسية التي أبني بها حلولاً عملية كل يوم."
+           data-en="My proficiency level in the core technologies I use to build real-world solutions daily.">
+            مستوى إتقاني في التقنيات الأساسية التي أبني بها حلولاً عملية كل يوم.
+        </p>
+
+        <div class="skills-grid" role="list">
+            <!-- Python -->
+            <div class="skill-card" role="listitem">
+                <div class="skill-header">
+                    <span class="skill-name" data-ar="بايثون" data-en="Python">بايثون</span>
+                    <span class="skill-level" data-skill-level
+                          aria-label="النسبة المئوية للمهارة"
+                          data-ar-label="النسبة المئوية للمهارة" data-en-label="Skill percentage">0%</span>
+                </div>
+                <div class="skill-bar"
+                     role="progressbar"
+                     aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"
+                     aria-label="مستوى بايثون"
+                     data-ar-label="مستوى بايثون" data-en-label="Python level"
+                     data-target="95">
+                    <span class="skill-bar-fill"></span>
+                </div>
+            </div>
+
+            <!-- Web Scraping -->
+            <div class="skill-card" role="listitem">
+                <div class="skill-header">
+                    <span class="skill-name" data-ar="سحب البيانات (Scraping)" data-en="Web Scraping">سحب البيانات (Scraping)</span>
+                    <span class="skill-level" data-skill-level
+                          aria-label="النسبة المئوية للمهارة"
+                          data-ar-label="النسبة المئوية للمهارة" data-en-label="Skill percentage">0%</span>
+                </div>
+                <div class="skill-bar"
+                     role="progressbar"
+                     aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"
+                     aria-label="مستوى سحب البيانات"
+                     data-ar-label="مستوى سحب البيانات" data-en-label="Web Scraping level"
+                     data-target="90">
+                    <span class="skill-bar-fill"></span>
+                </div>
+            </div>
+
+            <!-- Task Automation -->
+            <div class="skill-card" role="listitem">
+                <div class="skill-header">
+                    <span class="skill-name" data-ar="أتمتة المهام (Automation)" data-en="Task Automation">أتمتة المهام (Automation)</span>
+                    <span class="skill-level" data-skill-level
+                          aria-label="النسبة المئوية للمهارة"
+                          data-ar-label="النسبة المئوية للمهارة" data-en-label="Skill percentage">0%</span>
+                </div>
+                <div class="skill-bar"
+                     role="progressbar"
+                     aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"
+                     aria-label="مستوى الأتمتة"
+                     data-ar-label="مستوى الأتمتة" data-en-label="Automation level"
+                     data-target="92">
+                    <span class="skill-bar-fill"></span>
+                </div>
+            </div>
+
+            <!-- Cybersecurity -->
+            <div class="skill-card" role="listitem">
+                <div class="skill-header">
+                    <span class="skill-name" data-ar="الأمن السيبراني" data-en="Cybersecurity">الأمن السيبراني</span>
+                    <span class="skill-level" data-skill-level
+                          aria-label="النسبة المئوية للمهارة"
+                          data-ar-label="النسبة المئوية للمهارة" data-en-label="Skill percentage">0%</span>
+                </div>
+                <div class="skill-bar"
+                     role="progressbar"
+                     aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"
+                     aria-label="مستوى الأمن السيبراني"
+                     data-ar-label="مستوى الأمن السيبراني" data-en-label="Cybersecurity level"
+                     data-target="78">
+                    <span class="skill-bar-fill"></span>
+                </div>
+            </div>
+
+            <!-- Data Processing -->
+            <div class="skill-card" role="listitem">
+                <div class="skill-header">
+                    <span class="skill-name" data-ar="معالجة البيانات (Pandas)" data-en="Data Processing (Pandas)">معالجة البيانات (Pandas)</span>
+                    <span class="skill-level" data-skill-level
+                          aria-label="النسبة المئوية للمهارة"
+                          data-ar-label="النسبة المئوية للمهارة" data-en-label="Skill percentage">0%</span>
+                </div>
+                <div class="skill-bar"
+                     role="progressbar"
+                     aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"
+                     aria-label="مستوى معالجة البيانات"
+                     data-ar-label="مستوى معالجة البيانات" data-en-label="Data Processing level"
+                     data-target="85">
+                    <span class="skill-bar-fill"></span>
+                </div>
+            </div>
+
+            <!-- JavaScript / Frontend -->
+            <div class="skill-card" role="listitem">
+                <div class="skill-header">
+                    <span class="skill-name" data-ar="جافاسكربت وواجهات الويب" data-en="JavaScript & Frontend">جافاسكربت وواجهات الويب</span>
+                    <span class="skill-level" data-skill-level
+                          aria-label="النسبة المئوية للمهارة"
+                          data-ar-label="النسبة المئوية للمهارة" data-en-label="Skill percentage">0%</span>
+                </div>
+                <div class="skill-bar"
+                     role="progressbar"
+                     aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"
+                     aria-label="مستوى جافاسكربت"
+                     data-ar-label="مستوى جافاسكربت" data-en-label="JavaScript level"
+                     data-target="80">
+                    <span class="skill-bar-fill"></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section id="services" aria-labelledby="services-title">
         <h2 class="section-title-center" id="services-title" data-ar="الخدمات التي أقدمها" data-en="Services I Offer">الخدمات التي أقدمها</h2>
         <div class="projects-grid">
@@ -373,29 +500,35 @@
                     سكربت بايثون متقدم لسحب وتنظيم البيانات من المواقع المعقدة والتجارة الإلكترونية بسرعة عالية وتصديرها لملفات منظمة.
                 </p>
 
-                <div class="project-details">
-                    <div class="detail-item">
-                        <span class="detail-icon" aria-hidden="true">🎯</span>
-                        <div class="detail-text">
-                            <strong data-ar="الهدف:" data-en="Goal:">الهدف:</strong>
-                            <span data-ar="استخراج آلاف البيانات بدقة وتفادي الحظر الأوتوماتيكي." data-en="Extract thousands of data records accurately while bypassing rate limits.">استخراج آلاف البيانات بدقة وتفادي الحظر الأوتوماتيكي.</span>
+                <!-- وسوم التقنيات — المرحلة (ب) البند 2 -->
+                <ul class="project-tags" aria-label="التقنيات المستخدمة"
+                    data-ar-label="التقنيات المستخدمة" data-en-label="Tech stack">
+                    <li><span class="tag">Python</span></li>
+                    <li><span class="tag">BeautifulSoup</span></li>
+                    <li><span class="tag">Requests</span></li>
+                    <li><span class="tag">Pandas</span></li>
+                </ul>
+
+                <!-- تفاصيل قابلة للطي — المرحلة (ب) البند 3 -->
+                <details class="project-details">
+                    <summary data-ar="تفاصيل المشروع" data-en="Project details">تفاصيل المشروع</summary>
+                    <div class="details-body">
+                        <div class="detail-item">
+                            <span class="detail-icon" aria-hidden="true">🎯</span>
+                            <div class="detail-text">
+                                <strong data-ar="الهدف:" data-en="Goal:">الهدف:</strong>
+                                <span data-ar="استخراج آلاف البيانات بدقة وتفادي الحظر الأوتوماتيكي." data-en="Extract thousands of data records accurately while bypassing rate limits.">استخراج آلاف البيانات بدقة وتفادي الحظر الأوتوماتيكي.</span>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon" aria-hidden="true">💡</span>
+                            <div class="detail-text">
+                                <strong data-ar="التحدي والحل:" data-en="Challenge & Solution:">التحدي والحل:</strong>
+                                <span data-ar="حظر الـ IP أثناء السحب؛ وتم حله بتدوير البروكسيات (Proxy Rotation) وتغيير الهيدرز تلقائياً." data-en="IP blocks during high-scale scraping; solved via automatic proxy rotation & dynamic headers.">حظر الـ IP أثناء السحب؛ وتم حله بتدوير البروكسيات (Proxy Rotation) وتغيير الهيدرز تلقائياً.</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="detail-item">
-                        <span class="detail-icon" aria-hidden="true">⚙️</span>
-                        <div class="detail-text">
-                            <strong data-ar="التقنيات:" data-en="Tech Stack:">التقنيات:</strong>
-                            <span class="tech-stack-text">Python, BeautifulSoup, Requests, Pandas</span>
-                        </div>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-icon" aria-hidden="true">💡</span>
-                        <div class="detail-text">
-                            <strong data-ar="التحدي والحل:" data-en="Challenge & Solution:">التحدي والحل:</strong>
-                            <span data-ar="حظر الـ IP أثناء السحب؛ وتم حله بتدوير البروكسيات (Proxy Rotation) وتغيير الهيدرز تلقائياً." data-en="IP blocks during high-scale scraping; solved via automatic proxy rotation & dynamic headers.">حظر الـ IP أثناء السحب؛ وتم حله بتدوير البروكسيات (Proxy Rotation) وتغيير الهيدرز تلقائياً.</span>
-                        </div>
-                    </div>
-                </div>
+                </details>
 
                 <a href="https://github.com/youssef-deve-er/web-scraper-python/blob/main/scraper.py" target="_blank" rel="noopener noreferrer" class="btn-code" data-ar="عرض الكود" data-en="View Code">عرض الكود</a>
             </div>
@@ -414,29 +547,33 @@
                     أداة متقدمة مبنية بلغة بايثون لفحص أمان الشبكات المحلية وتتبع البيانات الجغرافية للـ IP.
                 </p>
 
-                <div class="project-details">
-                    <div class="detail-item">
-                        <span class="detail-icon" aria-hidden="true">🎯</span>
-                        <div class="detail-text">
-                            <strong data-ar="الهدف:" data-en="Goal:">الهدف:</strong>
-                            <span data-ar="عمل مسح شامل لاكتشاف الثغرات في الشبكات وتحديد الأجهزة المتصلة." data-en="Comprehensive scan to detect network vulnerabilities & connected nodes.">عمل مسح شامل لاكتشاف الثغرات في الشبكات وتحديد الأجهزة المتصلة.</span>
+                <ul class="project-tags" aria-label="التقنيات المستخدمة"
+                    data-ar-label="التقنيات المستخدمة" data-en-label="Tech stack">
+                    <li><span class="tag">Python</span></li>
+                    <li><span class="tag">Nmap</span></li>
+                    <li><span class="tag">Cryptography</span></li>
+                    <li><span class="tag">Sockets</span></li>
+                </ul>
+
+                <details class="project-details">
+                    <summary data-ar="تفاصيل المشروع" data-en="Project details">تفاصيل المشروع</summary>
+                    <div class="details-body">
+                        <div class="detail-item">
+                            <span class="detail-icon" aria-hidden="true">🎯</span>
+                            <div class="detail-text">
+                                <strong data-ar="الهدف:" data-en="Goal:">الهدف:</strong>
+                                <span data-ar="عمل مسح شامل لاكتشاف الثغرات في الشبكات وتحديد الأجهزة المتصلة." data-en="Comprehensive scan to detect network vulnerabilities & connected nodes.">عمل مسح شامل لاكتشاف الثغرات في الشبكات وتحديد الأجهزة المتصلة.</span>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon" aria-hidden="true">💡</span>
+                            <div class="detail-text">
+                                <strong data-ar="التحدي والحل:" data-en="Challenge & Solution:">التحدي والحل:</strong>
+                                <span data-ar="تأمين السجلات دون إبطاء الفحص؛ وتم حله ببناء نظام تشفير تلقائي سريع." data-en="Securing logs without slowing scans; solved via an automated fast encryption system.">تأمين السجلات دون إبطاء الفحص؛ وتم حله ببناء نظام تشفير تلقائي سريع.</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="detail-item">
-                        <span class="detail-icon" aria-hidden="true">⚙️</span>
-                        <div class="detail-text">
-                            <strong data-ar="التقنيات:" data-en="Tech Stack:">التقنيات:</strong>
-                            <span class="tech-stack-text">Python, Nmap, Cryptography</span>
-                        </div>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-icon" aria-hidden="true">💡</span>
-                        <div class="detail-text">
-                            <strong data-ar="التحدي والحل:" data-en="Challenge & Solution:">التحدي والحل:</strong>
-                            <span data-ar="تأمين السجلات دون إبطاء الفحص؛ وتم حله ببناء نظام تشفير تلقائي سريع." data-en="Securing logs without slowing scans; solved via an automated fast encryption system.">تأمين السجلات دون إبطاء الفحص؛ وتم حله ببناء نظام تشفير تلقائي سريع.</span>
-                        </div>
-                    </div>
-                </div>
+                </details>
 
                 <a href="https://github.com/youssef-deve-er/network-security-sudit-tool/blob/main/network_auditor.py" target="_blank" rel="noopener noreferrer" class="btn-code" data-ar="عرض الكود" data-en="View Code">عرض الكود</a>
             </div>
@@ -455,29 +592,32 @@
                     تطبيق ويب يعرض الوقت والتاريخ الفعلي بشكل حي، تم بناؤه بتصميم سينمائي زجاجي جذاب وتجاوب كامل.
                 </p>
 
-                <div class="project-details">
-                    <div class="detail-item">
-                        <span class="detail-icon" aria-hidden="true">🎯</span>
-                        <div class="detail-text">
-                            <strong data-ar="الهدف:" data-en="Goal:">الهدف:</strong>
-                            <span data-ar="تقديم عرض حي دقيق للوقت مع تجربة بصريّة سلسة ومريحة للعين." data-en="Deliver an accurate real-time clock with smooth UI animations.">تقديم عرض حي دقيق للوقت مع تجربة بصريّة سلسة ومريحة للعين.</span>
+                <ul class="project-tags" aria-label="التقنيات المستخدمة"
+                    data-ar-label="التقنيات المستخدمة" data-en-label="Tech stack">
+                    <li><span class="tag">JavaScript ES6+</span></li>
+                    <li><span class="tag">CSS Glassmorphism</span></li>
+                    <li><span class="tag">HTML5</span></li>
+                </ul>
+
+                <details class="project-details">
+                    <summary data-ar="تفاصيل المشروع" data-en="Project details">تفاصيل المشروع</summary>
+                    <div class="details-body">
+                        <div class="detail-item">
+                            <span class="detail-icon" aria-hidden="true">🎯</span>
+                            <div class="detail-text">
+                                <strong data-ar="الهدف:" data-en="Goal:">الهدف:</strong>
+                                <span data-ar="تقديم عرض حي دقيق للوقت مع تجربة بصريّة سلسة ومريحة للعين." data-en="Deliver an accurate real-time clock with smooth UI animations.">تقديم عرض حي دقيق للوقت مع تجربة بصريّة سلسة ومريحة للعين.</span>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon" aria-hidden="true">💡</span>
+                            <div class="detail-text">
+                                <strong data-ar="التحدي والحل:" data-en="Challenge & Solution:">التحدي والحل:</strong>
+                                <span data-ar="تفادي استهلاك المعالج أثناء التحديث المستمر للثواني؛ وتم حله بأكواد مؤقتات محسّنة." data-en="Avoiding CPU drain on continuous tick updates; solved via optimized intervals.">تفادي استهلاك المعالج أثناء التحديث المستمر للثواني؛ وتم حله بأكواد مؤقتات محسّنة.</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="detail-item">
-                        <span class="detail-icon" aria-hidden="true">⚙️</span>
-                        <div class="detail-text">
-                            <strong data-ar="التقنيات:" data-en="Tech Stack:">التقنيات:</strong>
-                            <span class="tech-stack-text">JavaScript (ES6+), CSS Glassmorphism, HTML5</span>
-                        </div>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-icon" aria-hidden="true">💡</span>
-                        <div class="detail-text">
-                            <strong data-ar="التحدي والحل:" data-en="Challenge & Solution:">التحدي والحل:</strong>
-                            <span data-ar="تفادي استهلاك المعالج أثناء التحديث المستمر للثواني؛ وتم حله بأكواد مؤقتات محسّنة." data-en="Avoiding CPU drain on continuous tick updates; solved via optimized intervals.">تفادي استهلاك المعالج أثناء التحديث المستمر للثواني؛ وتم حله بأكواد مؤقتات محسّنة.</span>
-                        </div>
-                    </div>
-                </div>
+                </details>
 
                 <a href="https://youssef-deve-er.github.io/digital-clock/" target="_blank" rel="noopener noreferrer" class="btn-code" data-ar="عرض المشروع" data-en="Live Preview">عرض المشروع</a>
             </div>
@@ -496,29 +636,33 @@
                     تطبيق تفاعلي يجلب حالة الطقس الحية لأي مدينة في العالم بالاعتماد على ربط واجهات البرمجة APIs.
                 </p>
 
-                <div class="project-details">
-                    <div class="detail-item">
-                        <span class="detail-icon" aria-hidden="true">🎯</span>
-                        <div class="detail-text">
-                            <strong data-ar="الهدف:" data-en="Goal:">الهدف:</strong>
-                            <span data-ar="عرض درجات الحرارة والرطوبة والسرعة بالوقت الفعلي لأي موقع." data-en="Display temperature, humidity, and wind speed dynamically.">عرض درجات الحرارة والرطوبة والسرعة بالوقت الفعلي لأي موقع.</span>
+                <ul class="project-tags" aria-label="التقنيات المستخدمة"
+                    data-ar-label="التقنيات المستخدمة" data-en-label="Tech stack">
+                    <li><span class="tag">JavaScript</span></li>
+                    <li><span class="tag">Fetch API</span></li>
+                    <li><span class="tag">CSS Grid</span></li>
+                    <li><span class="tag">HTML5</span></li>
+                </ul>
+
+                <details class="project-details">
+                    <summary data-ar="تفاصيل المشروع" data-en="Project details">تفاصيل المشروع</summary>
+                    <div class="details-body">
+                        <div class="detail-item">
+                            <span class="detail-icon" aria-hidden="true">🎯</span>
+                            <div class="detail-text">
+                                <strong data-ar="الهدف:" data-en="Goal:">الهدف:</strong>
+                                <span data-ar="عرض درجات الحرارة والرطوبة والسرعة بالوقت الفعلي لأي موقع." data-en="Display temperature, humidity, and wind speed dynamically.">عرض درجات الحرارة والرطوبة والسرعة بالوقت الفعلي لأي موقع.</span>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon" aria-hidden="true">💡</span>
+                            <div class="detail-text">
+                                <strong data-ar="التحدي والحل:" data-en="Challenge & Solution:">التحدي والحل:</strong>
+                                <span data-ar="التعامل مع أسماء المدن الخاطئة وانقطاع النت؛ وتم حله بنظام معالجة أخطاء (Error Handling) ذكي." data-en="Handling invalid inputs & network dropouts; solved via smart exception handling.">التعامل مع أسماء المدن الخاطئة وانقطاع النت؛ وتم حله بنظام معالجة أخطاء (Error Handling) ذكي.</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="detail-item">
-                        <span class="detail-icon" aria-hidden="true">⚙️</span>
-                        <div class="detail-text">
-                            <strong data-ar="التقنيات:" data-en="Tech Stack:">التقنيات:</strong>
-                            <span class="tech-stack-text">JavaScript, Fetch API, CSS Grid, HTML5</span>
-                        </div>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-icon" aria-hidden="true">💡</span>
-                        <div class="detail-text">
-                            <strong data-ar="التحدي والحل:" data-en="Challenge & Solution:">التحدي والحل:</strong>
-                            <span data-ar="التعامل مع أسماء المدن الخاطئة وانقطاع النت؛ وتم حله بنظام معالجة أخطاء (Error Handling) ذكي." data-en="Handling invalid inputs & network dropouts; solved via smart exception handling.">التعامل مع أسماء المدن الخاطئة وانقطاع النت؛ وتم حله بنظام معالجة أخطاء (Error Handling) ذكي.</span>
-                        </div>
-                    </div>
-                </div>
+                </details>
 
                 <a href="https://youssef-deve-er.github.io/weather-app/" target="_blank" rel="noopener noreferrer" class="btn-code" data-ar="عرض المشروع" data-en="Live Preview">عرض المشروع</a>
             </div>
@@ -537,29 +681,33 @@
                     آلة حاسبة علمية متطورة بتصميم جذاب وتفاعل كامل مع الكيبورد للعمليات الحسابية السريعة.
                </p>
 
-                <div class="project-details">
-                    <div class="detail-item">
-                        <span class="detail-icon" aria-hidden="true">🎯</span>
-                        <div class="detail-text">
-                            <strong data-ar="الهدف:" data-en="Goal:">الهدف:</strong>
-                            <span data-ar="تسهيل الحسابات الرياضية المعقدة بتصميم عصري واختصارات سريعة." data-en="Streamline complex math operations with keyboard shortcuts and dynamic UI.">تسهيل الحسابات الرياضية المعقدة بتصميم عصري واختصارات سريعة.</span>
+                <ul class="project-tags" aria-label="التقنيات المستخدمة"
+                    data-ar-label="التقنيات المستخدمة" data-en-label="Tech stack">
+                    <li><span class="tag">JavaScript</span></li>
+                    <li><span class="tag">Keypress Events</span></li>
+                    <li><span class="tag">CSS Animations</span></li>
+                    <li><span class="tag">HTML5</span></li>
+                </ul>
+
+                <details class="project-details">
+                    <summary data-ar="تفاصيل المشروع" data-en="Project details">تفاصيل المشروع</summary>
+                    <div class="details-body">
+                        <div class="detail-item">
+                            <span class="detail-icon" aria-hidden="true">🎯</span>
+                            <div class="detail-text">
+                                <strong data-ar="الهدف:" data-en="Goal:">الهدف:</strong>
+                                <span data-ar="تسهيل الحسابات الرياضية المعقدة بتصميم عصري واختصارات سريعة." data-en="Streamline complex math operations with keyboard shortcuts and dynamic UI.">تسهيل الحسابات الرياضية المعقدة بتصميم عصري واختصارات سريعة.</span>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon" aria-hidden="true">💡</span>
+                            <div class="detail-text">
+                                <strong data-ar="التحدي والحل:" data-en="Challenge & Solution:">التحدي والحل:</strong>
+                                <span data-ar="إدخال رموز خاطئة متتالية من الكيبورد؛ وتم حله بمصفي مدخلات (Input Sanitizer) قبل التنفيذ." data-en="Handling illegal keyboard symbol inputs; solved via an active input sanitizer.">إدخال رموز خاطئة متتالية من الكيبورد؛ وتم حله بمصفي مدخلات (Input Sanitizer) قبل التنفيذ.</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="detail-item">
-                        <span class="detail-icon" aria-hidden="true">⚙️</span>
-                        <div class="detail-text">
-                            <strong data-ar="التقنيات:" data-en="Tech Stack:">التقنيات:</strong>
-                            <span class="tech-stack-text">JavaScript, Keypress Events, CSS Animations</span>
-                        </div>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-icon" aria-hidden="true">💡</span>
-                        <div class="detail-text">
-                            <strong data-ar="التحدي والحل:" data-en="Challenge & Solution:">التحدي والحل:</strong>
-                            <span data-ar="إدخال رموز خاطئة متتالية من الكيبورد؛ وتم حله بمصفي مدخلات (Input Sanitizer) قبل التنفيذ." data-en="Handling illegal keyboard symbol inputs; solved via an active input sanitizer.">إدخال رموز خاطئة متتالية من الكيبورد؛ وتم حله بمصفي مدخلات (Input Sanitizer) قبل التنفيذ.</span>
-                        </div>
-                    </div>
-                </div>
+                </details>
 
                <a href="https://youssef-deve-er.github.io/calculator/" target="_blank" rel="noopener noreferrer" class="btn-code" data-ar="عرض المشروع" data-en="Live Preview">عرض المشروع</a>
            </div>
@@ -628,6 +776,7 @@
                 <h2 class="footer-heading" data-ar="تصفّح" data-en="Explore">تصفّح</h2>
                 <ul>
                     <li><a href="#journey"  data-ar="رحلتي"    data-en="Journey">رحلتي</a></li>
+                    <li><a href="#skills"   data-ar="المهارات" data-en="Skills">المهارات</a></li>
                     <li><a href="#services" data-ar="الخدمات"  data-en="Services">الخدمات</a></li>
                     <li><a href="#projects" data-ar="المشاريع" data-en="Projects">المشاريع</a></li>
                     <li><a href="#contact"  data-ar="تواصل"    data-en="Contact">تواصل</a></li>

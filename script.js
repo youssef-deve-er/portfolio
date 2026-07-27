@@ -53,15 +53,19 @@ const init = () => {
     }
 
     /* ======================================================================
-       2. العدّاد المتحرك للإحصائيات
+       2. العدّاد المتحرك للإحصائيات + أشرطة تقدم المهارات (المرحلة ب - البند 1)
        المشكلة السابقة: `target / 100` مع `Math.ceil` جعل كل عدّاد ينتهي في
        وقت مختلف (8 ينتهي في 120ms بينما 200 يستغرق 1500ms).
        الحل: مدة موحّدة (1500ms) مع requestAnimationFrame و easing.
+       أعيد استخدام نفس منطق الـ rAF لتحريك شرائط المهارات حتى لا نزدوج الكود.
        ====================================================================== */
     const statsSection = document.querySelector(".stats-section");
     const statNumbers = document.querySelectorAll(".stat-number");
+    const skillsSection = document.querySelector(".skills-section");
+    const skillBars = document.querySelectorAll(".skill-bar");
     const COUNTER_DURATION = 1500;
     let animated = false;
+    let skillsAnimated = false;
 
     const startCounting = () => {
         statNumbers.forEach(stat => {
@@ -88,6 +92,44 @@ const init = () => {
         });
     };
 
+    /* تحريك أشرطة المهارات: عرض النسبة الرقمية + ملء الشريط معاً بنفس الإيقاع.
+       كل بطاقة (.skill-card) تشترك في شريطها ومستوى النسبة حتى نحدّثهما دفعةً واحدة. */
+    const animateSkillBars = () => {
+        skillBars.forEach(bar => {
+            const target = Number(bar.getAttribute("data-target")) || 0;
+            const card = bar.closest(".skill-card");
+            const levelText = card ? card.querySelector("[data-skill-level]") : null;
+            const fill = bar.querySelector(".skill-bar-fill");
+
+            // من يفضّل تقليل الحركة: اضبط القيم النهائية فوراً بلا أي حركة
+            if (prefersReducedMotion.matches) {
+                if (fill) fill.style.width = `${target}%`;
+                if (levelText) levelText.textContent = `${target}%`;
+                bar.setAttribute("aria-valuenow", String(target));
+                return;
+            }
+
+            const startTime = performance.now();
+            const tick = (now) => {
+                const progress = Math.min((now - startTime) / COUNTER_DURATION, 1);
+                const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic يطابق العدّاد
+                const value = Math.round(target * eased);
+                if (fill) fill.style.width = `${value}%`;
+                if (levelText) levelText.textContent = `${value}%`;
+                bar.setAttribute("aria-valuenow", String(value));
+                if (progress < 1) {
+                    requestAnimationFrame(tick);
+                } else {
+                    // ضمان القيم النهائية الدقيقة
+                    if (fill) fill.style.width = `${target}%`;
+                    if (levelText) levelText.textContent = `${target}%`;
+                    bar.setAttribute("aria-valuenow", String(target));
+                }
+            };
+            requestAnimationFrame(tick);
+        });
+    };
+
     if (statsSection && statNumbers.length) {
         if (!("IntersectionObserver" in window)) {
             startCounting();
@@ -103,6 +145,24 @@ const init = () => {
             }, { threshold: 0.5 });
 
             statsObserver.observe(statsSection);
+        }
+    }
+
+    if (skillsSection && skillBars.length) {
+        if (!("IntersectionObserver" in window)) {
+            animateSkillBars();
+        } else {
+            const skillsObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !skillsAnimated) {
+                        skillsAnimated = true;
+                        animateSkillBars();
+                        observer.disconnect(); // مرة واحدة فقط: لا إعادة تدوير مزعجة
+                    }
+                });
+            }, { threshold: 0.25 });
+
+            skillsObserver.observe(skillsSection);
         }
     }
 

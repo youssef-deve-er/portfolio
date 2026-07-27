@@ -709,6 +709,101 @@ html[dir="ltr"] .timeline-dot { left: -42px; }
     gap: 25px;
 }
 
+/* ==========================================================================
+   قسم المهارات بأشرطة التقدم — المرحلة (ب) البند 1
+   الشبكة تتكيف تلقائياً: عمودان على الديسكتوب، عمود واحد تحت 600px.
+   التصميم يحترم ثنائية اللغة بالكامل: لا نصوص عربية/إنجليزية في CSS.
+   ========================================================================== */
+.skills-section {
+    /* يتبع نفس هوامش section الأخرى (60px) من القاعدة العامة */
+}
+
+.section-subtitle-center {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    max-width: 720px;
+    margin: -20px auto 40px;
+    line-height: 1.7;
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 18px;
+    max-width: 980px;
+    margin: 0 auto;
+}
+
+.skill-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    padding: 18px 20px;
+    transition: border-color 0.25s ease, transform 0.25s ease;
+}
+
+.skill-card:hover {
+    border-color: rgba(56, 189, 248, 0.45);
+    transform: translateY(-2px);
+}
+
+.skill-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.skill-name {
+    color: var(--text-color);
+    font-weight: 700;
+    font-size: 0.98rem;
+    line-height: 1.3;
+}
+
+.skill-level {
+    /* الرقم في النهاية المقابلة لاتجاه القراءة تلقائياً (inset-inline-end) */
+    color: var(--primary-color);
+    font-weight: 700;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95rem;
+    font-variant-numeric: tabular-nums;   /* عرض ثابت للأرقام كي لا يقفز النص */
+    flex-shrink: 0;
+    min-width: 3.5ch;                    /* احتياط لتغيرات الخانات (1% → 100%) */
+    text-align: end;
+}
+
+/* مسار الشريط: خلفية شفافة تُظهر تقدّم التعبئة */
+.skill-bar {
+    position: relative;
+    width: 100%;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 999px;
+    overflow: hidden;
+    /* يُرسم كشريط تقدّم منطقي للاتجاه: ينمو من بداية القراءة تلقائياً */
+    direction: ltr;       /* مهم: الشريط دائماً LTR داخلياً مهما كانت لغة الصفحة */
+}
+
+[data-theme="light"] .skill-bar {
+    background: rgba(0, 0, 0, 0.08);
+}
+
+/* التعبئة: تبدأ من 0% وتنتهي عند data-target بفضل JS */
+.skill-bar-fill {
+    display: block;
+    height: 100%;
+    width: 0;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-purple));
+    /* مدة CSS الاحتياطية: تتطابق مع COUNTER_DURATION في JS لـ 1500ms */
+    transition: width 0.6s ease-out;
+}
+
 .project-card {
     background: var(--card-bg);
     backdrop-filter: blur(20px);
@@ -740,20 +835,124 @@ html[dir="ltr"] .timeline-dot { left: -42px; }
     margin-bottom: 20px;
 }
 
-/* صندوق التفاصيل داخل المشاريع (Case Study) */
+/* وسوم التقنيات داخل بطاقات المشاريع — المرحلة (ب) البند 2 */
+.project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    list-style: none;
+    margin: 0 0 16px;
+    padding: 0;
+}
+
+.project-tags li {
+    display: inline-flex;
+}
+
+.tag {
+    display: inline-block;
+    background: rgba(56, 189, 248, 0.1);
+    border: 1px solid rgba(56, 189, 248, 0.25);
+    color: var(--primary-color);
+    padding: 4px 11px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    line-height: 1.4;
+    /* خط أحادي المسافة لجعل أسماء الحزم (Python, Pandas, ...) مرتّبة بصرياً */
+    font-family: 'Courier New', monospace;
+    white-space: nowrap;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.tag:hover {
+    background: rgba(56, 189, 248, 0.18);
+    border-color: rgba(56, 189, 248, 0.5);
+}
+
+[data-theme="light"] .tag {
+    background: rgba(3, 105, 161, 0.12);
+    border-color: rgba(3, 105, 161, 0.3);
+}
+
+/* ==========================================================================
+   تفاصيل المشاريع القابلة للطي — المرحلة (ب) البند 3
+   نستخدم عنصر <details> الأصلي (دلالي، قابل للوصول، يعمل بلا JS)
+   مع <summary> كرأس قابل للنقر.
+   ========================================================================== */
 .project-details {
     background: rgba(0, 0, 0, 0.2);
-    border-radius: 14px;
-    padding: 15px;
-    margin-bottom: 20px;
+    border-radius: 12px;
+    margin-bottom: 16px;
     border: 1px solid rgba(56, 189, 248, 0.15);
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+    overflow: hidden;   /* لإخفاء الانتقال الحاد بين الإطار والمحتوى */
+    transition: border-color 0.25s ease;
+}
+
+.project-details[open] {
+    border-color: rgba(56, 189, 248, 0.4);
 }
 
 [data-theme="light"] .project-details {
     background: rgba(0, 0, 0, 0.03);
+    border-color: rgba(3, 105, 161, 0.2);
+}
+
+[data-theme="light"] .project-details[open] {
+    border-color: rgba(3, 105, 161, 0.45);
+}
+
+/* summary: شريط قابل للنقر مع سهم مخصّص (يُخفي السهم الافتراضي للمتصفح) */
+.project-details > summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    color: var(--primary-color);
+    font-weight: 700;
+    font-size: 0.9rem;
+    user-select: none;
+    position: relative;
+    /* هدف لمس ≥44px لاستخدام الإبهام على الجوال */
+    min-height: 44px;
+    transition: background-color 0.2s ease;
+}
+
+.project-details > summary::-webkit-details-marker {
+    display: none;   /* إخفاء السهم الثلاثي في WebKit/Blink */
+}
+
+.project-details > summary:hover {
+    background: rgba(56, 189, 248, 0.08);
+}
+
+[data-theme="light"] .project-details > summary:hover {
+    background: rgba(3, 105, 161, 0.06);
+}
+
+/* سهم مخصّص: ▼ في الإغلاق، ▲ في الفتح، مع انتقال سلس (يدعم RTL/LTR) */
+.project-details > summary::after {
+    content: "▾";
+    font-size: 0.9rem;
+    line-height: 1;
+    flex-shrink: 0;
+    transition: transform 0.25s ease;
+    display: inline-block;
+}
+
+.project-details[open] > summary::after {
+    transform: rotate(180deg);
+}
+
+/* حاوية المحتوى: بُعد منطقي للحشو يحترم RTL/LTR */
+.details-body {
+    padding: 4px 16px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 .detail-item {
@@ -783,27 +982,7 @@ html[dir="ltr"] .timeline-dot { left: -42px; }
     color: var(--text-muted);
 }
 
-.tech-stack-text {
-    color: var(--accent-purple) !important;
-    font-family: monospace;
-    font-weight: bold;
-}
-
-.project-tags {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-bottom: 20px;
-}
-
-.tag {
-    background: rgba(56, 189, 248, 0.1);
-    color: var(--primary-color);
-    padding: 3px 10px;
-    border-radius: 6px;
-    font-size: 0.8rem;
-    font-weight: 600;
-}
+/* .tech-stack-text و.project-tags و.tag مُعرّفة بالكامل في قسم المرحلة (ب) أعلاه. */
 
 .btn-code {
     background-color: var(--btn-bg);
@@ -1232,6 +1411,19 @@ section[id] {
         flex-wrap: wrap;
         gap: 14px;
     }
+
+    /* قسم المهارات: عمود واحد على الجوال */
+    .skills-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    /* بطاقات المشاريع: خلفية صلبة لتخفيف العبء على معالج الجوال */
+    .skill-card {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        background: var(--card-bg-solid);
+    }
 }
 
 /* ------- جوال ------- */
@@ -1311,6 +1503,11 @@ section[id] {
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
         scroll-behavior: auto !important;
+    }
+
+    /* شريط المهارات: لا انتقال عرض حتى لو حُقن width ديناميكياً */
+    .skill-bar-fill {
+        transition: none !important;
     }
 
     .project-card:hover .project-preview-gif {
