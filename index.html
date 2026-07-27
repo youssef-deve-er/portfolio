@@ -23,7 +23,7 @@
         })();
     </script>
 
-    <link rel="stylesheet" href="style.css?v=7.0">
+    <link rel="stylesheet" href="style.css?v=8.0">
 
     <meta name="description"
           data-ar="الموقع الشخصي ليوسف بن عياد، مطور بايثون متخصص في أتمتة المهام، الأمن السيبراني، وتطوير الحلول البرمجية الذكية."
@@ -205,16 +205,41 @@
     <a href="#main-content" class="skip-link"
        data-ar="تخطي إلى المحتوى الرئيسي" data-en="Skip to main content">تخطي إلى المحتوى الرئيسي</a>
 
+    <!-- شريط تقدّم القراءة: يمتلئ مع تمرير الصفحة (يُعطَّل مع prefers-reduced-motion) -->
+    <div id="reading-progress" aria-hidden="true"><span id="reading-progress-bar"></span></div>
+
     <header>
         <div class="header-container">
-            <p class="logo">Youssef</p>
+            <a href="#hero" class="logo">Youssef<span class="logo-dot" aria-hidden="true">.</span></a>
+
+            <!-- شريط التنقل الرئيسي: يتحول إلى قائمة منسدلة تحت 900px -->
+            <nav id="primary-nav" class="primary-nav"
+                 aria-label="التنقل الرئيسي"
+                 data-ar-label="التنقل الرئيسي" data-en-label="Main navigation">
+                <ul>
+                    <li><a href="#journey"  class="nav-link" data-ar="رحلتي"   data-en="Journey">رحلتي</a></li>
+                    <li><a href="#services" class="nav-link" data-ar="الخدمات" data-en="Services">الخدمات</a></li>
+                    <li><a href="#projects" class="nav-link" data-ar="المشاريع" data-en="Projects">المشاريع</a></li>
+                    <li><a href="#contact"  class="nav-link" data-ar="تواصل"   data-en="Contact">تواصل</a></li>
+                </ul>
+            </nav>
+
             <div class="controls-wrapper">
+                <a href="#contact" class="btn-hire" data-ar="استأجرني" data-en="Hire me">استأجرني</a>
+
                 <button type="button" id="theme-toggle" class="control-btn"
                         aria-label="التبديل إلى الوضع النهاري" aria-pressed="true">
                     <span id="theme-icon" aria-hidden="true">☀️</span>
                 </button>
                 <button type="button" id="lang-toggle" class="control-btn"
                         aria-label="التبديل إلى الإنجليزية / Switch to English">EN</button>
+
+                <!-- زر القائمة للجوال -->
+                <button type="button" id="nav-toggle" class="control-btn nav-toggle"
+                        aria-label="فتح قائمة التنقل" aria-expanded="false" aria-controls="primary-nav"
+                        data-ar-label="فتح قائمة التنقل" data-en-label="Open navigation menu">
+                    <span class="nav-toggle-bars" aria-hidden="true"></span>
+                </button>
             </div>
         </div>
     </header>
@@ -223,11 +248,35 @@
 
     <section id="hero" aria-labelledby="hero-title">
         <div class="hero-content">
+            <!-- شارة التوفر: النقطة الخضراء تنبض (تتوقف مع prefers-reduced-motion) -->
+            <p class="availability-badge">
+                <span class="availability-dot" aria-hidden="true"></span>
+                <span data-ar="مطور بايثون" data-en="Python Developer">مطور بايثون</span>
+                <span class="availability-sep" aria-hidden="true">·</span>
+                <span data-ar="متاح للعمل" data-en="Available for work">متاح للعمل</span>
+            </p>
+
             <h1 id="hero-title" data-ar="مرحباً، أنا يوسف بن عياد" data-en="Hi, I'm Youssef Ben Ayed">مرحباً، أنا يوسف بن عياد</h1>
-            <p data-ar="مطور بايثون متخصص في بناء أدوات الأتمتة المخصصة وسحب بيانات المواقع (Web Scraping) بسرعة فائقة ومعالجة البيانات الضخمة."
+            <p class="hero-tagline"
+               data-ar="مطور بايثون متخصص في بناء أدوات الأتمتة المخصصة وسحب بيانات المواقع (Web Scraping) بسرعة فائقة ومعالجة البيانات الضخمة."
                data-en="Python Developer specializing in building custom automation tools, high-speed Web Scrapers, and Big Data processing.">
                 مطور بايثون متخصص في بناء أدوات الأتمتة المخصصة وسحب بيانات المواقع (Web Scraping) بسرعة فائقة ومعالجة البيانات الضخمة.
             </p>
+
+            <!-- دعوات الإجراء -->
+            <div class="hero-cta">
+                <a href="#projects" class="btn btn-primary" data-ar="شاهد مشاريعي" data-en="View my projects">شاهد مشاريعي</a>
+                <a href="#contact" class="btn btn-outline" data-ar="تحدث معي" data-en="Get in touch">تحدث معي</a>
+                <a href="https://github.com/youssef-deve-er" target="_blank" rel="noopener noreferrer"
+                   class="btn btn-ghost">GitHub</a>
+            </div>
+
+            <!-- مؤشر التمرير: يخبر الزائر أن هناك محتوى تحت الطية -->
+            <a href="#journey" class="scroll-cue"
+               aria-label="تمرير للأسفل" data-ar-label="تمرير للأسفل" data-en-label="Scroll down">
+                <span data-ar="تمرير للأسفل" data-en="Scroll down">تمرير للأسفل</span>
+                <span class="scroll-cue-arrow" aria-hidden="true">↓</span>
+            </a>
         </div>
     </section>
 
@@ -564,7 +613,39 @@
     </main>
 
     <footer>
-        <p>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <p class="footer-logo">Youssef<span class="logo-dot" aria-hidden="true">.</span></p>
+                <p class="footer-about"
+                   data-ar="مطور بايثون متخصص في الأتمتة وسحب البيانات والأمن السيبراني."
+                   data-en="Python developer specializing in automation, web scraping and cybersecurity.">
+                    مطور بايثون متخصص في الأتمتة وسحب البيانات والأمن السيبراني.
+                </p>
+            </div>
+
+            <nav class="footer-col" aria-label="روابط التذييل"
+                 data-ar-label="روابط التذييل" data-en-label="Footer links">
+                <h2 class="footer-heading" data-ar="تصفّح" data-en="Explore">تصفّح</h2>
+                <ul>
+                    <li><a href="#journey"  data-ar="رحلتي"    data-en="Journey">رحلتي</a></li>
+                    <li><a href="#services" data-ar="الخدمات"  data-en="Services">الخدمات</a></li>
+                    <li><a href="#projects" data-ar="المشاريع" data-en="Projects">المشاريع</a></li>
+                    <li><a href="#contact"  data-ar="تواصل"    data-en="Contact">تواصل</a></li>
+                </ul>
+            </nav>
+
+            <div class="footer-col">
+                <h2 class="footer-heading" data-ar="تواصل" data-en="Connect">تواصل</h2>
+                <ul>
+                    <li><a href="https://github.com/youssef-deve-er" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+                    <li><a href="https://www.linkedin.com/in/youssef-ben-ayed-6bb1ab423/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+                    <li><a href="https://x.com/Youssef_deve_er" target="_blank" rel="noopener noreferrer">X / Twitter</a></li>
+                    <li><a href="mailto:youssefbenayed207@outlook.com" data-ar="البريد الإلكتروني" data-en="Email">البريد الإلكتروني</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <p class="footer-bottom">
             &copy; <span id="current-year">2026</span>
             <span data-ar="يوسف بن عياد — جميع الحقوق محفوظة."
                   data-en="Youssef Ben Ayed — All rights reserved.">يوسف بن عياد — جميع الحقوق محفوظة.</span>
@@ -578,6 +659,6 @@
         <span aria-hidden="true">↑</span>
     </button>
 
-    <script src="script.js?v=7.0"></script>
+    <script src="script.js?v=8.0"></script>
 </body>
 </html>
